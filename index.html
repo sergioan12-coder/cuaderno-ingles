@@ -1,0 +1,1209 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Cuaderno de Inglés</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: hermano del Cuaderno de Electromagnetismo; barra superior con pestañas, una columna amplia; hoja rayada para ejemplos y cartas.
+   Color fijo por función: contable azul, no contable verde, palabra clave rosa (como el libro). */
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#17212b; --muted:#566473; --line:#d2dae2;
+  --rule:rgba(60,110,170,.16); --margin:rgba(196,60,100,.35); --paper:#fffdf6;
+  --ccol:#2152cf; --ncol:#0c8558; --kcol:#b42f6b;
+  --ok:#137a4b; --ok-bg:#e3f4ea; --bad:#b4321b; --bad-bg:#fbe7e2; --warn-bg:#fff4d6; --warn:#7a5a00;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-en:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#17202a; --surface-2:#1c2732; --ink:#e4ebf2; --muted:#93a2b1; --line:#2a3744;
+  --rule:rgba(120,170,230,.12); --margin:rgba(255,120,160,.3); --paper:#1a222b;
+  --ccol:#79a1ff; --ncol:#3fd09a; --kcol:#ff7fb0;
+  --ok:#55d394; --ok-bg:#15301f; --bad:#ff8a70; --bad-bg:#3a1c16; --warn-bg:#352b10; --warn:#f0cf6a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#17202a; --surface-2:#1c2732; --ink:#e4ebf2; --muted:#93a2b1; --line:#2a3744;
+  --rule:rgba(120,170,230,.12); --margin:rgba(255,120,160,.3); --paper:#1a222b;
+  --ccol:#79a1ff; --ncol:#3fd09a; --kcol:#ff7fb0;
+  --ok:#55d394; --ok-bg:#15301f; --bad:#ff8a70; --bad-bg:#3a1c16; --warn-bg:#352b10; --warn:#f0cf6a; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15.5px; line-height:1.55}
+button,input,select,textarea{font:inherit; color:inherit}
+h1,h2,h3{font-family:var(--font-display); line-height:1.15; text-wrap:balance; margin:0}
+h2{font-size:1.5rem; font-weight:700}
+h3{font-size:1.08rem; font-weight:700}
+p{margin:0}
+.wrap{max-width:1180px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.mono{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+.en{font-family:var(--font-en); font-size:1.06em}
+.k{color:var(--kcol); font-weight:600}
+.cn{color:var(--ccol); font-weight:600}
+.nn{color:var(--ncol); font-weight:600}
+.strike{text-decoration:line-through; text-decoration-color:var(--bad); text-decoration-thickness:2px}
+
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:10; background:var(--surface)}
+header.top{position:sticky; top:env(safe-area-inset-top, 0px); z-index:5; background:var(--surface); border-bottom:1px solid var(--line)}
+.top-row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-block:12px 4px; flex-wrap:wrap}
+.brand{display:flex; align-items:baseline; gap:10px; min-width:0}
+.brand h1{font-size:1.28rem; font-weight:700; letter-spacing:-.01em}
+.brand .tag{font-size:.8rem; color:var(--muted)}
+.chip-prog{display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--muted); background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:4px 12px; cursor:pointer}
+.chip-prog b{color:var(--ink); font-family:var(--font-mono); font-weight:500}
+nav.tabs{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; margin-bottom:-1px}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{flex:0 0 auto; text-decoration:none; color:var(--muted); padding:10px 14px; border-bottom:2px solid transparent; font-weight:500; font-size:.95rem}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink); border-bottom-color:var(--kcol)}
+main{padding-block:24px 64px}
+section.view{display:flex; flex-direction:column; gap:20px}
+.view-head{display:flex; flex-direction:column; gap:6px; max-width:70ch}
+
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:6px; border-radius:8px; border:1px solid var(--line); background:var(--surface); padding:8px 14px; cursor:pointer; font-weight:500; font-size:.92rem; white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.btn.primary:hover{opacity:.9}
+.btn.ghost{border-color:transparent; background:transparent; color:var(--muted)}
+.btn.ghost:hover{color:var(--ink)}
+.btn:disabled{opacity:.45; cursor:default}
+:focus-visible{outline:2px solid var(--ccol); outline-offset:2px}
+.row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+.seg{display:inline-flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:9px; padding:3px; gap:3px; background:var(--surface-2)}
+.seg button{border:0; background:transparent; padding:6px 11px; border-radius:6px; cursor:pointer; font-size:.88rem; color:var(--muted); font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:0 0 0 1px var(--line)}
+.eyebrow{font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.note{border-left:3px solid var(--warn); background:var(--warn-bg); color:var(--ink); padding:8px 12px; border-radius:0 8px 8px 0; font-size:.92rem}
+.note.tip{border-left-color:var(--ncol); background:var(--surface-2)}
+
+/* Gramática */
+.topic-nav{display:flex; gap:8px; flex-wrap:wrap}
+.pill{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:5px 12px; font-size:.86rem; cursor:pointer; color:var(--muted)}
+.pill[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.grid-2{display:grid; grid-template-columns:repeat(auto-fit, minmax(310px, 1fr)); gap:16px}
+.rule{display:flex; flex-direction:column; gap:10px}
+.rule .what{font-weight:500}
+.lined{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:6px 12px 6px 34px; position:relative;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 29px, var(--rule) 29px, var(--rule) 30px);
+  line-height:30px}
+.lined::before{content:""; position:absolute; left:22px; top:0; bottom:0; width:1px; background:var(--margin)}
+.lined div{font-family:var(--font-en); font-size:1.02rem}
+.lined .gl{font-family:var(--font-body); font-size:.82rem; color:var(--muted); margin-left:6px}
+.qtable{border-collapse:collapse; font-size:.92rem; width:100%}
+.qtable th,.qtable td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+.qtable th{background:var(--surface-2); font-weight:600; font-size:.82rem}
+.table-scroll{overflow-x:auto}
+.legend-row{display:flex; gap:14px; flex-wrap:wrap; font-size:.85rem; color:var(--muted)}
+.legend-row span{display:inline-flex; align-items:center; gap:6px}
+.legend-row i{width:10px; height:10px; border-radius:3px; display:inline-block}
+
+/* Tarjetas */
+.flash-zone{display:flex; flex-direction:column; gap:14px; align-items:center}
+.flashcard{width:min(520px, 100%); aspect-ratio:16/9; max-width:100%; perspective:1000px; cursor:pointer; border:0; background:transparent; padding:0}
+.flash-inner{position:relative; width:100%; height:100%; transition:transform .45s ease; transform-style:preserve-3d}
+.flashcard.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute; inset:0; backface-visibility:hidden; border:1px solid var(--line); border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:20px; text-align:center; background:var(--paper);
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px)}
+.flash-face.back{transform:rotateY(180deg)}
+.flash-face .big{font-family:var(--font-en); font-size:clamp(1.1rem, 3.4vw, 1.55rem); line-height:1.35}
+.flash-meta{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center}
+
+/* Libro */
+.book-list{display:flex; flex-direction:column; gap:16px}
+.book{display:flex; flex-direction:column; gap:12px}
+.book-head{display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap}
+.book-head .meta{display:flex; flex-direction:column; gap:2px; min-width:0}
+.badge{font-size:.74rem; border-radius:999px; padding:2px 9px; border:1px solid var(--line); color:var(--muted); white-space:nowrap}
+.badge.done{background:var(--ok-bg); color:var(--ok); border-color:transparent}
+.badge.pend{background:var(--warn-bg); color:var(--warn); border-color:transparent}
+.items{display:flex; flex-direction:column; gap:0; margin:0; padding:0; list-style:none}
+.item{display:grid; grid-template-columns:26px minmax(0, 1fr); gap:8px; padding:12px 0; border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item .num{font-family:var(--font-mono); font-size:.82rem; color:var(--muted); padding-top:3px}
+.item .body{display:flex; flex-direction:column; gap:8px; min-width:0}
+.sent{font-family:var(--font-en); font-size:1.08rem}
+.blank{display:inline-block; min-width:5.5em; border-bottom:1.5px solid var(--muted); text-align:center; padding:0 4px; color:var(--muted)}
+.blank.filled{color:var(--kcol); font-weight:600; border-bottom-color:var(--kcol)}
+.blank.bad{color:var(--bad); border-bottom-color:var(--bad)}
+.choices{display:flex; gap:6px; flex-wrap:wrap}
+.choice{border:1px solid var(--line); background:var(--surface); border-radius:7px; padding:5px 12px; cursor:pointer; font-family:var(--font-en); font-size:1rem}
+.choice:hover{border-color:var(--muted)}
+.choice.right{border-color:var(--ok); background:var(--ok-bg)}
+.choice.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.choice:disabled{cursor:default}
+.typed{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.field{width:100%; min-width:0; border:1px solid var(--line); background:var(--surface-2); border-radius:7px; padding:8px 10px; font-size:.95rem}
+.field:focus{outline:2px solid var(--ccol); outline-offset:0; background:var(--surface)}
+.typed .field{flex:1 1 260px; font-family:var(--font-en); font-size:1.02rem}
+.explain{font-size:.9rem; padding:8px 12px; border-radius:8px}
+.explain.ok{background:var(--ok-bg)}
+.explain.bad{background:var(--bad-bg)}
+.explain b.t{display:block; margin-bottom:2px}
+.explain.ok b.t{color:var(--ok)}
+.explain.bad b.t{color:var(--bad)}
+.example-line{font-size:.92rem; color:var(--muted)}
+
+/* Práctica */
+.practice{display:grid; grid-template-columns:300px minmax(0, 1fr); gap:16px; align-items:start}
+.type-list{display:flex; flex-direction:column; gap:14px}
+.type-list .tema-name{font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:4px}
+.type-btn{display:flex; flex-direction:column; gap:5px; width:100%; text-align:left; border:1px solid transparent; background:transparent; border-radius:8px; padding:8px 10px; cursor:pointer}
+.type-btn:hover{background:var(--surface-2)}
+.type-btn[aria-pressed="true"]{background:var(--surface-2); border-color:var(--line)}
+.type-btn .tn{font-weight:500; font-size:.92rem}
+.type-btn .ts{display:flex; align-items:center; gap:8px; font-size:.76rem; color:var(--muted)}
+.bar{flex:1; height:5px; border-radius:3px; background:var(--line); overflow:hidden}
+.bar > i{display:block; height:100%; background:var(--ok); border-radius:3px}
+.problem{display:flex; flex-direction:column; gap:16px}
+.problem .statement{font-size:1.02rem}
+.problem .sent{font-size:1.25rem}
+.opts{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:8px}
+.opt{border:1px solid var(--line); background:var(--surface); border-radius:8px; padding:10px 12px; cursor:pointer; text-align:left; font-size:1rem}
+.opt.en{font-family:var(--font-en); font-size:1.06rem}
+.opt:hover{border-color:var(--muted)}
+.opt.right{border-color:var(--ok); background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.feedback{border-radius:8px; padding:10px 14px; font-weight:500}
+.feedback.ok{background:var(--ok-bg); color:var(--ok)}
+.feedback.bad{background:var(--bad-bg); color:var(--bad)}
+.feedback span{display:block; font-weight:400; color:var(--ink); font-size:.94rem; margin-top:2px}
+
+/* Carta */
+.letter-wrap{display:grid; grid-template-columns:minmax(0, 1fr) 300px; gap:16px; align-items:start}
+.letter{background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:28px 30px; font-family:var(--font-en); font-size:1.02rem; line-height:1.5; display:flex; flex-direction:column; gap:14px; box-shadow:0 1px 0 var(--line), 0 6px 18px -12px rgba(0,0,0,.25); min-width:0}
+.letter .part{border-radius:4px; padding:1px 3px; margin:-1px -3px; transition:background .15s; cursor:pointer; white-space:pre-line; overflow-wrap:anywhere}
+.letter .part.on{background:color-mix(in srgb, var(--kcol) 14%, transparent); box-shadow:inset 0 0 0 1px var(--kcol)}
+.letter .right-block{align-self:flex-end; text-align:left}
+.letter .sig{font-style:italic; font-size:1.3rem; color:var(--ccol)}
+.letter .ph{color:var(--muted); font-style:italic}
+.part-list{display:flex; flex-direction:column; gap:4px}
+.part-btn{display:flex; gap:10px; align-items:baseline; width:100%; text-align:left; border:1px solid transparent; background:transparent; border-radius:8px; padding:7px 10px; cursor:pointer}
+.part-btn:hover{background:var(--surface-2)}
+.part-btn[aria-pressed="true"]{background:var(--surface-2); border-color:var(--kcol)}
+.part-btn .pn{font-family:var(--font-mono); font-size:.78rem; color:var(--muted)}
+.part-btn .pt{font-weight:500; font-size:.92rem}
+.part-info{font-size:.9rem; min-height:4.5em}
+.order-zone{display:flex; flex-direction:column; gap:12px}
+.order-pool,.order-done{display:flex; flex-wrap:wrap; gap:8px}
+.order-done{min-height:44px; padding:8px; border:1px dashed var(--line); border-radius:8px}
+.chip{border:1px solid var(--line); background:var(--surface); border-radius:8px; padding:7px 11px; cursor:pointer; font-size:.9rem; text-align:left}
+.chip .en{display:block; font-size:.85rem; color:var(--muted)}
+.chip.right{border-color:var(--ok); background:var(--ok-bg); cursor:default}
+.chip.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.builder{display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:16px; align-items:start}
+.form{display:flex; flex-direction:column; gap:12px}
+.form label{display:flex; flex-direction:column; gap:4px; font-size:.84rem; font-weight:600}
+.form label .h{font-weight:400; color:var(--muted)}
+textarea.field{resize:vertical; min-height:70px; font-family:var(--font-en); font-size:1rem; line-height:1.45}
+input.field.en-in{font-family:var(--font-en); font-size:1rem}
+.checks{display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none; font-size:.9rem}
+.checks li{display:grid; grid-template-columns:20px minmax(0, 1fr); gap:6px}
+.checks .ic{font-weight:700}
+.checks .ok .ic{color:var(--ok)}
+.checks .bad .ic{color:var(--bad)}
+.checks .pend .ic{color:var(--muted)}
+.ai-out{white-space:pre-wrap; font-size:.93rem; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:12px 14px}
+
+/* Progreso */
+.stats{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:12px}
+.stat{display:flex; flex-direction:column; gap:4px}
+.stat .n{font-family:var(--font-display); font-size:2rem; font-weight:700; font-variant-numeric:tabular-nums; line-height:1}
+.prog-table{width:100%; border-collapse:collapse; font-size:.92rem}
+.prog-table th,.prog-table td{padding:8px 6px; border-bottom:1px solid var(--line); text-align:left}
+.prog-table th{font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.prog-table td.num{font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+.prog-table .bar{min-width:80px}
+.confirm{display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:.9rem}
+
+@media (max-width: 900px){
+  .practice,.letter-wrap,.builder{grid-template-columns:minmax(0, 1fr)}
+  .practice .problem{order:-1}
+}
+@media (max-width: 520px){
+  .brand .tag{display:none}
+  .letter{padding:20px 16px}
+}
+@media (prefers-reduced-motion: reduce){.flash-inner{transition:none} .chip.shake{animation:none}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand"><h1>Cuaderno de Inglés</h1><span class="tag">Unit 5 · Grammar booster y cartas formales</span></div>
+      <button class="chip-prog" id="chipProg" type="button" title="Ver progreso">Aciertos <b id="chipAciertos">0/0</b> · Racha <b id="chipRacha">0</b></button>
+    </div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#gramatica" data-view="gramatica">Gramática</a>
+      <a href="#libro" data-view="libro">Ejercicios del libro</a>
+      <a href="#practica" data-view="practica">Práctica</a>
+      <a href="#carta" data-view="carta">Carta formal</a>
+      <a href="#progreso" data-view="progreso">Mi progreso</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- GRAMÁTICA -->
+  <section class="view" id="view-gramatica" hidden>
+    <div class="view-head">
+      <h2>Gramática de la Unidad 5</h2>
+      <p class="muted">Las reglas del Grammar Booster explicadas en español, con los ejemplos del libro. Al final hay tarjetas de repaso.</p>
+    </div>
+    <div class="legend-row">
+      <span><i style="background:var(--ccol)"></i>sustantivo contable</span>
+      <span><i style="background:var(--ncol)"></i>sustantivo no contable</span>
+      <span><i style="background:var(--kcol)"></i>palabra que estudiamos</span>
+    </div>
+    <div class="topic-nav" id="topicNav"></div>
+    <div id="gramContent" style="display:flex; flex-direction:column; gap:16px"></div>
+    <div class="panel flash-zone">
+      <div class="row" style="justify-content:space-between; width:100%">
+        <h3>Tarjetas de repaso</h3>
+        <div class="seg" id="flashDeck">
+          <button type="button" data-deck="todas" aria-pressed="true">Todas</button>
+          <button type="button" data-deck="repasar" aria-pressed="false">Por repasar</button>
+        </div>
+      </div>
+      <button class="flashcard" id="flashcard" type="button" aria-label="Voltear tarjeta">
+        <div class="flash-inner">
+          <div class="flash-face"><span class="eyebrow">Pregunta</span><div class="big" id="flashA"></div><span class="small muted">Toca para ver la respuesta</span></div>
+          <div class="flash-face back"><span class="eyebrow">Respuesta</span><div class="big" id="flashB"></div></div>
+        </div>
+      </button>
+      <div class="flash-meta">
+        <button class="btn" type="button" id="flashPrev">Anterior</button>
+        <span class="small muted mono" id="flashPos"></span>
+        <button class="btn" type="button" id="flashNext">Siguiente</button>
+      </div>
+      <div class="flash-meta">
+        <button class="btn" type="button" id="flashRepasar">Repasar después</button>
+        <button class="btn primary" type="button" id="flashSe">Ya me la sé</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRO -->
+  <section class="view" id="view-libro" hidden>
+    <div class="view-head">
+      <h2>Ejercicios del libro</h2>
+      <p class="muted">Los ejercicios A, B, C y D de la Lección 1 y el de pronombres de la Lección 2. Responde y la app te dice si está bien y por qué. Solo cuenta tu primer intento.</p>
+    </div>
+    <div class="book-list" id="bookList"></div>
+  </section>
+
+  <!-- PRÁCTICA -->
+  <section class="view" id="view-practica" hidden>
+    <div class="view-head">
+      <h2>Práctica</h2>
+      <p class="muted">Oraciones nuevas cada vez, con los mismos tipos de ejercicio del libro. Solo cuenta tu primer intento de cada pregunta.</p>
+    </div>
+    <div class="practice">
+      <div class="panel type-list" id="typeList"></div>
+      <div class="panel problem" id="problem"></div>
+    </div>
+  </section>
+
+  <!-- CARTA -->
+  <section class="view" id="view-carta" hidden>
+    <div class="view-head">
+      <h2>Carta formal</h2>
+      <p class="muted">Las partes de una carta formal según el modelo del libro. Toca cada parte para ver qué es y cómo se escribe.</p>
+    </div>
+    <div class="letter-wrap">
+      <div class="letter" id="modelLetter"></div>
+      <div class="panel" style="display:flex; flex-direction:column; gap:12px">
+        <span class="eyebrow">Partes de la carta</span>
+        <div class="part-list" id="partList"></div>
+        <div class="part-info note tip" id="partInfo">Toca una parte de la carta o de esta lista.</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="panel rule">
+        <h3>Saludo (salutation)</h3>
+        <p>Si sabes el nombre: <b>Dear</b> + título + apellido. En una carta formal va con <b>dos puntos</b>. En una menos formal, con coma.</p>
+        <div class="lined"><div>Dear Mr. Smith<span class="k">:</span> <span class="gl">formal</span></div><div>Dear Marie<span class="k">,</span> <span class="gl">menos formal</span></div></div>
+        <p>Si no sabes el nombre ni si es hombre o mujer:</p>
+        <div class="lined"><div>Dear Sir or Madam:</div><div>To whom it may concern:</div></div>
+      </div>
+      <div class="panel rule">
+        <h3>Despedida y firma</h3>
+        <p>La despedida (complimentary close) va con <b>coma</b>. Debajo va tu firma a mano y luego tu nombre escrito.</p>
+        <div class="lined"><div>Sincerely,</div><div>Sincerely yours,</div><div>Cordially,</div><div>Best regards,</div></div>
+        <p class="note">En un e-mail de negocios no hace falta poner las direcciones.</p>
+      </div>
+    </div>
+    <div class="panel order-zone">
+      <div class="row" style="justify-content:space-between">
+        <h3>Ordena la carta</h3>
+        <button class="btn ghost" type="button" id="orderReset">Empezar de nuevo</button>
+      </div>
+      <p class="muted small">Toca las partes en el orden en que aparecen en una carta formal, de arriba hacia abajo.</p>
+      <div class="order-done" id="orderDone" aria-label="Tu orden"></div>
+      <div class="order-pool" id="orderPool"></div>
+      <div id="orderMsg"></div>
+    </div>
+    <div class="panel" style="display:flex; flex-direction:column; gap:16px">
+      <div class="view-head">
+        <h3>Escribe tu carta (ejercicios A y B)</h3>
+        <p class="muted small">Piensa en un negocio donde te atendieron bien: un hotel, una tienda, un salón, un gimnasio o un restaurante. Toma notas y escribe una carta de agradecimiento al gerente. La vista previa se arma mientras escribes y la lista de revisión te avisa si falta algo. Tu borrador se guarda solo.</p>
+      </div>
+      <div class="builder">
+        <div class="form" id="letterForm">
+          <span class="eyebrow">A · Notas</span>
+          <label>Nombre del negocio<input class="field en-in" id="n_neg" placeholder="The Tipton Spa"></label>
+          <label>Dirección del negocio<input class="field en-in" id="n_dir" placeholder="2200 Byway Street, Sylvania"></label>
+          <label>¿Por qué te gustó el servicio?<textarea class="field" id="n_por" rows="2" placeholder="friendly staff, great haircut, fair prices"></textarea></label>
+          <span class="eyebrow">B · Tu carta</span>
+          <label>Tu dirección <span class="h">una línea por renglón; puede incluir tu e-mail</span><textarea class="field" id="c_tudir" rows="3" placeholder="657 Boulevard East&#10;New Compton, Fortunia&#10;e-mail: you@example.com"></textarea></label>
+          <label>Fecha <span class="h">mes día, año</span><input class="field en-in" id="c_fecha" placeholder="November 18, 2026"></label>
+          <label>Destinatario <span class="h">nombre o cargo, negocio y dirección</span><textarea class="field" id="c_dest" rows="4" placeholder="Manager&#10;The Tipton Spa&#10;2200 Byway Street&#10;Sylvania"></textarea></label>
+          <label>Saludo<input class="field en-in" id="c_saludo" placeholder="Dear Sir or Madam:"></label>
+          <label>Cuerpo de la carta<textarea class="field" id="c_cuerpo" rows="7" placeholder="I'm writing to tell you that I was very happy with the service…"></textarea></label>
+          <label>Despedida<input class="field en-in" id="c_desp" placeholder="Sincerely,"></label>
+          <label>Tu nombre<input class="field en-in" id="c_nombre" placeholder="Sergio …"></label>
+          <div class="row"><button class="btn ghost" type="button" id="letterExample">Cargar un ejemplo</button><button class="btn ghost" type="button" id="letterClear">Borrar mi carta</button></div>
+          <div id="letterClearConfirm"></div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:14px; min-width:0">
+          <span class="eyebrow">Vista previa</span>
+          <div class="letter" id="previewLetter"></div>
+          <span class="eyebrow">Revisión automática</span>
+          <ul class="checks" id="letterChecks"></ul>
+          <div id="aiZone" hidden style="display:flex; flex-direction:column; gap:8px">
+            <button class="btn primary" type="button" id="aiBtn">Pedirle a Claude que corrija mi carta</button>
+            <div class="ai-out" id="aiOut" hidden></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESO -->
+  <section class="view" id="view-progreso" hidden>
+    <div class="view-head">
+      <h2>Mi progreso</h2>
+      <p class="muted small" id="storeStatus">Guardado en este navegador.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="panel table-scroll"><table class="prog-table" id="progTable"></table></div>
+    <div class="panel table-scroll"><table class="prog-table" id="bookTable"></table></div>
+    <div class="row" id="resetZone"></div>
+  </section>
+</main>
+
+<script>
+/* ===================== Contenido ===================== */
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function K(s) { return '<span class="k">' + s + '</span>'; }
+function C(s) { return '<span class="cn">' + s + '</span>'; }
+function N(s) { return '<span class="nn">' + s + '</span>'; }
+var BL = '<span class="blank">______</span>';
+
+/* Sustantivos: c = contable; p = producto (sirve para "in aisle 2"); cont = recipiente */
+var NOUNS = [
+  {n:'toothbrushes', c:1, p:1, es:'cepillos de dientes'}, {n:'razors', c:1, p:1, es:'rasuradoras'},
+  {n:'combs', c:1, p:1, es:'peines'}, {n:'nail files', c:1, p:1, es:'limas de uñas'},
+  {n:'brushes', c:1, p:1, es:'cepillos'}, {n:'nail clippers', c:1, p:1, es:'cortaúñas'},
+  {n:'towels', c:1, p:1, es:'toallas'}, {n:'lipsticks', c:1, p:1, es:'labiales'},
+  {n:'magazines', c:1, p:1, es:'revistas'}, {n:'bottles of shampoo', c:1, p:1, cont:1, es:'botellas de champú'},
+  {n:'tubes of toothpaste', c:1, p:1, cont:1, es:'tubos de pasta dental'}, {n:'bars of soap', c:1, p:1, cont:1, es:'barras de jabón'},
+  {n:'cans of hairspray', c:1, p:1, cont:1, es:'latas de laca'}, {n:'appointments', c:1, es:'citas'},
+  {n:'customers', c:1, es:'clientes'}, {n:'students', c:1, es:'estudiantes'}, {n:'brands', c:1, es:'marcas'},
+  {n:'shampoo', c:0, p:1, es:'champú'}, {n:'toothpaste', c:0, p:1, es:'pasta dental'},
+  {n:'sunscreen', c:0, p:1, es:'protector solar'}, {n:'makeup', c:0, p:1, es:'maquillaje'},
+  {n:'mascara', c:0, p:1, es:'rímel'}, {n:'nail polish', c:0, p:1, es:'esmalte de uñas'},
+  {n:'deodorant', c:0, p:1, es:'desodorante'}, {n:'dental floss', c:0, p:1, es:'hilo dental'},
+  {n:'hand lotion', c:0, p:1, es:'crema de manos'}, {n:'soap', c:0, p:1, es:'jabón'},
+  {n:'hairspray', c:0, p:1, es:'laca para el pelo'}, {n:'shaving cream', c:0, p:1, es:'crema de afeitar'},
+  {n:'aftershave', c:0, p:1, es:'loción para después de afeitar'}, {n:'money', c:0, es:'dinero'},
+  {n:'time', c:0, es:'tiempo'}, {n:'information', c:0, es:'información'}, {n:'advice', c:0, es:'consejos'},
+  {n:'furniture', c:0, es:'muebles'}, {n:'cheese', c:0, es:'queso'}, {n:'fruit', c:0, es:'fruta'}
+];
+function nounTag(x) { return x.c ? C(x.n) : N(x.n); }
+function tipoTxt(x) { return x.c ? 'contable (' + x.n + ' está en plural)' : 'no contable (no tiene plural)'; }
+
+/* ---------- Temas de gramática ---------- */
+var TEMAS = [
+  {id:'someany', nombre:'Some y any'},
+  {id:'cantidad', nombre:'Too many, too much, enough'},
+  {id:'fewerless', nombre:'Fewer y less'},
+  {id:'pronombres', nombre:'Something, anything, everything, nothing'},
+  {id:'carta', nombre:'Carta formal'}
+];
+
+var GRAM = {
+  someany: [
+    {t:'Qué son some y any', w:'Son cuantificadores indefinidos: indican una cantidad o un número que no se especifica. En español suelen ser «algo de», «algunos» o simplemente nada.',
+     ej:['There are ' + K('some') + ' ' + C('toothbrushes') + ' in aisle 2. <span class="gl">no sabemos cuántos</span>',
+         'They are buying ' + K('some') + ' ' + N('shaving cream') + '. <span class="gl">no sabemos cuánta</span>',
+         'Could I get ' + K('some') + ' ' + C('nail files') + '? <span class="gl">no pido un número exacto</span>',
+         'Do they have ' + K('any') + ' ' + N('makeup') + ' in this store?']},
+    {t:'Some en oraciones afirmativas', w:'Con sustantivos no contables y con contables en plural.',
+     ej:['We need ' + K('some') + ' ' + N('sunscreen') + ' and ' + K('some') + ' ' + C('combs') + '.', 'They have ' + K('some') + ' here.']},
+    {t:'Any en oraciones negativas', w:'Con no contables y con contables en plural. Nunca uses some en una negativa.',
+     ej:['A: She doesn\'t want ' + K('any') + ' ' + N('shampoo') + ', and he doesn\'t need ' + K('any') + ' ' + C('nail clippers') + '.',
+         'B: Good! We don\'t have to buy ' + K('any') + ', then. I\'m out of cash.']},
+    {t:'Some o any en preguntas', w:'En preguntas sirven los dos, con contables y no contables. Some suena a que esperas un «sí» u ofreces algo.',
+     ej:['Do they need ' + K('any') + ' ' + N('toothpaste') + ' or ' + N('sunscreen') + ' for the trip?', 'Do we need ' + K('any') + ' ' + C('razors') + ' or ' + C('toothbrushes') + '?', 'Would you like ' + K('some') + ' ' + N('coffee') + '?']}
+  ],
+  cantidad: [
+    {t:'Too = demasiado', w:'Too indica una cantidad excesiva: más de lo que alguien quiere o necesita.',
+     ej:['There are ' + K('too many') + ' ' + C('customers') + ' waiting in line.', 'There\'s ' + K('too much') + ' ' + N('toothpaste') + ' on the toothbrush.']},
+    {t:'Too many / not too many', w:'Con sustantivos contables en plural.', ej:['There are ' + K('too many') + ' ' + C('choices') + ' on this menu.', 'There are ' + K('not too many') + ' ' + C('people') + ' today.']},
+    {t:'Too much / not too much', w:'Con sustantivos no contables.', ej:['This shampoo has ' + K('too much') + ' ' + N('perfume') + '.', 'They don\'t want to spend ' + K('too much') + ' ' + N('money') + '.']},
+    {t:'Enough = suficiente', w:'Enough y not enough sirven con contables y con no contables. Enough indica que la cantidad alcanza.',
+     ej:['There\'s ' + K('enough') + ' ' + N('shampoo') + ', but there aren\'t ' + K('enough') + ' ' + C('razors') + '.', 'Do we have ' + K('enough') + ' ' + N('nail polish') + ' for both of us?']}
+  ],
+  fewerless: [
+    {t:'Fewer para contables', w:'Fewer = menos, con sustantivos que se cuentan (en plural).', ej:['The Cosmetique store has ' + K('fewer') + ' ' + C('brands') + ' of makeup than the Emporium.', 'Which class has ' + K('fewer') + ' ' + C('students') + '?']},
+    {t:'Less para no contables', w:'Less = menos, con sustantivos que no se cuentan.', ej:['There\'s ' + K('less') + ' ' + N('shampoo') + ' in this bottle than in that tube.', 'The recipe calls for ' + K('less') + ' ' + N('cheese') + ' than I thought.']}
+  ],
+  pronombres: [
+    {t:'Afirmativas: something, nothing, everything', w:'Something = algo · nothing = nada · everything = todo.',
+     ej:['There\'s ' + K('something') + ' in this box.', K('Nothing') + ' can convince me to get a pedicure.', K('Everything') + ' is ready.']},
+    {t:'Negativas: anything', w:'Con un verbo negativo (isn\'t, don\'t, can\'t) se usa anything.', ej:['There isn\'t ' + K('anything') + ' in the fridge.']},
+    {t:'Preguntas de sí o no', w:'Sirven something, anything o everything.', ej:['Is there ' + K('something') + ' we should talk about?', 'Is ' + K('anything') + ' wrong?', 'Do you have ' + K('everything') + ' you need?']},
+    {t:'Nothing = not anything', w:'Nothing ya es negativo. No lo uses con un verbo negativo: en inglés no hay doble negación.',
+     ej:['There isn\'t ' + K('anything') + ' in the fridge. = There\'s ' + K('nothing') + ' in the fridge.', '<span class="strike">There isn\'t nothing in the fridge.</span> <span class="gl">incorrecto</span>']}
+  ]
+};
+
+/* ---------- Tarjetas ---------- */
+var FLASH = [
+  {id:'f1', a:'There are ___ toothbrushes in aisle 2.', b:K('some') + '<br><span class="small muted">afirmativa: número indefinido</span>'},
+  {id:'f2', a:'We don\'t have ___ shampoo.', b:K('any') + '<br><span class="small muted">negativa</span>'},
+  {id:'f3', a:'¿Some o any en preguntas?', b:'Los dos sirven<br><span class="small muted">Do you need any razors? · Could I get some nail files?</span>'},
+  {id:'f4', a:'Too many va con…', b:'sustantivos ' + C('contables') + '<br><span class="small muted">too many customers</span>'},
+  {id:'f5', a:'Too much va con…', b:'sustantivos ' + N('no contables') + '<br><span class="small muted">too much toothpaste</span>'},
+  {id:'f6', a:'Enough va con…', b:'contables y no contables<br><span class="small muted">enough shampoo · enough razors</span>'},
+  {id:'f7', a:'Fewer o less: ___ students', b:K('fewer') + '<br><span class="small muted">students es contable</span>'},
+  {id:'f8', a:'Fewer o less: ___ cheese', b:K('less') + '<br><span class="small muted">cheese es no contable</span>'},
+  {id:'f9', a:'¿Cómo cuento algo no contable como el champú?', b:'Con un recipiente<br><span class="small muted">a bottle of shampoo · a tube of lipstick · a bar of soap · a can of hairspray</span>'},
+  {id:'f10', a:'There isn\'t anything in the fridge = …', b:'There\'s ' + K('nothing') + ' in the fridge.'},
+  {id:'f11', a:'¿Qué tiene de malo «There isn\'t nothing»?', b:'Doble negación. Di There isn\'t ' + K('anything') + ' o There\'s ' + K('nothing') + '.'},
+  {id:'f12', a:'Pronombres para afirmativas', b:K('something') + ', ' + K('nothing') + ', ' + K('everything')},
+  {id:'f13', a:'Saludo formal si no sabes el nombre', b:'Dear Sir or Madam:<br>To whom it may concern:'},
+  {id:'f14', a:'Saludo formal si sabes el nombre (Robert Smith)', b:'Dear Mr. Smith' + K(':')},
+  {id:'f15', a:'Tres despedidas formales', b:'Sincerely, · Cordially, · Best regards,'},
+  {id:'f16', a:'Los elementos de una carta formal', b:'<span class="small">tu dirección · fecha · destinatario · saludo · cuerpo · despedida · firma · nombre escrito</span>'}
+];
+
+/* ---------- Ejercicios del libro ---------- */
+var LIBRO = [
+  {id:'A', tema:'someany', titulo:'A · De afirmativa a negativa', instr:'Cambia cada oración de afirmativa a negativa. Ejemplo: There is some shampoo in the shower. → There isn\'t any shampoo in the shower.', tipo:'texto', items:[
+    {s:'There are some razors next to the sink.', a:'There aren\'t any razors next to the sink.', e:'There are → there aren\'t; some → any.'},
+    {s:'We have some nail clippers.', a:'We don\'t have any nail clippers.', e:'Have necesita el auxiliar do: we don\'t have; some → any.'},
+    {s:'They need some brushes for the children.', a:'They don\'t need any brushes for the children.', e:'Need con they → don\'t need; some → any.'},
+    {s:'She\'s buying some mascara.', a:'She isn\'t buying any mascara.', e:'Presente continuo: she\'s → she isn\'t (o she\'s not); some → any.', alt:['She\'s not buying any mascara.']},
+    {s:'The manicurists need some new nail polish.', a:'The manicurists don\'t need any new nail polish.', e:'The manicurists = they → don\'t need; some → any.'},
+    {s:'I want some sunscreen on my back.', a:'I don\'t want any sunscreen on my back.', e:'I → don\'t want; some → any.'},
+    {s:'There is some dental floss in aisle 4.', a:'There isn\'t any dental floss in aisle 4.', e:'Dental floss es no contable: there is → there isn\'t; some → any.'},
+    {s:'They need some deodorant for the trip.', a:'They don\'t need any deodorant for the trip.', e:'They → don\'t need; some → any.'}
+  ]},
+  {id:'B', tema:'someany', titulo:'B · Some o any', instr:'Completa cada oración con some o any.', tipo:'opciones', ops:['some', 'any'], items:[
+    {s:'I don\'t need ___ more hand lotion.', a:'any', e:'Negativa (don\'t need) → any.'},
+    {s:'There isn\'t ___ makeup in the bag.', a:'any', e:'Negativa (isn\'t) → any.'},
+    {s:'We don\'t see ___ scissors in the whole store.', a:'any', e:'Negativa (don\'t see) → any.'},
+    {s:'They need ___ soap to wash their hands.', a:'some', e:'Afirmativa → some.'},
+    {s:'It\'s too bad that there isn\'t ___ toothpaste.', a:'any', e:'La parte que lleva el espacio es negativa (there isn\'t) → any.'},
+    {s:'I don\'t see ___ combs or brushes on those shelves.', a:'any', e:'Negativa (don\'t see) → any.'},
+    {s:'I know I had ___ nail files in my bag. Now I can\'t find them.', a:'some', e:'I had es afirmativa → some. El «can\'t» está en la otra oración.'}
+  ]},
+  {id:'C', tema:'cantidad', titulo:'C · Too many, too much o enough', instr:'Completa cada oración con too many, too much o enough.', tipo:'opciones', ops:['too many', 'too much', 'enough'], items:[
+    {s:'Let\'s do our nails. Do we have ___ nail polish for both of us?', a:'enough', e:'Preguntas si alcanza para los dos → enough.'},
+    {s:'This shampoo has ___ perfume. It smells awful!', a:'too much', e:'Huele horrible: hay exceso. Perfume es no contable → too much.'},
+    {s:'It\'s not a good idea to buy ___ fruit. We\'re not going to be home for a few days.', a:'too much', e:'Exceso de fruta, y fruit es no contable → too much.'},
+    {s:'This menu has ___ choices. I can\'t make up my mind.', a:'too many', e:'No puedo decidir: hay exceso. Choices es contable → too many.'},
+    {s:'Check the bathroom shelf to see if we have ___ soap. Mom and Dad are coming to visit.', a:'enough', e:'Quieres saber si alcanza → enough.'},
+    {s:'I don\'t like when there are ___ brands. I can\'t decide which one to buy.', a:'too many', e:'Exceso de marcas; brands es contable → too many.'},
+    {s:'There\'s no way to get a haircut today. ___ people had the same idea!', a:'too many', e:'Exceso de gente; people es contable (plural de person) → too many.'},
+    {s:'They don\'t want to spend ___ money on makeup. They\'re trying to save money.', a:'too much', e:'Exceso de dinero; money es no contable → too much.'}
+  ]},
+  {id:'D', tema:'fewerless', titulo:'D · Fewer o less', instr:'Completa cada oración con fewer o less.', tipo:'opciones', ops:['fewer', 'less'], items:[
+    {s:'Which class has ___ students — the early class or the late one?', a:'fewer', e:'Students es contable → fewer.'},
+    {s:'The recipe calls for ___ cheese than I thought.', a:'less', e:'Cheese es no contable → less.'},
+    {s:'It has ___ ingredients, too.', a:'fewer', e:'Ingredients es contable → fewer.'},
+    {s:'Don\'t rent from Cars Plus. They have ___ kinds of cars than International.', a:'fewer', e:'Kinds es contable → fewer.'},
+    {s:'The Cineplex has ___ movies this weekend than usual.', a:'fewer', e:'Movies es contable → fewer.'},
+    {s:'Is there ___ body lotion in the small size or the economy size?', a:'less', e:'Body lotion es no contable → less.'}
+  ]},
+  {id:'P', tema:'pronombres', titulo:'Lección 2 · Pronombres indefinidos', instr:'Elige el pronombre correcto para completar cada oración.', tipo:'opciones', items:[
+    {s:'I need to go to the store to buy ___.', ops:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+    {s:'There is ___ I can do to help.', ops:['something', 'anything'], a:'something', e:'Afirmativa (there is) → something.'},
+    {s:'There isn\'t ___ you can do to make yourself taller.', ops:['everything', 'anything'], a:'anything', e:'Negativa (isn\'t) → anything.'},
+    {s:'I went on the Internet to find ___ about how to use sunscreen.', ops:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+    {s:'They have ___ that helps you lose weight.', ops:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+    {s:'There\'s ___ that can make you look young again.', ops:['anything', 'nothing'], a:'nothing', e:'There\'s es afirmativo; para decir «nada» usa nothing (anything va con verbos negativos).'},
+    {s:'They can\'t get ___ to eat there after ten o\'clock.', ops:['anything', 'nothing'], a:'anything', e:'Ya hay un negativo (can\'t) → anything. Con nothing sería doble negación.'}
+  ]}
+];
+
+/* ---------- Normalizar respuestas escritas ---------- */
+function normalizar(s) {
+  s = String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
+  s = s.replace(/[.!?]+$/, '').trim();
+  var map = {"isn't":'is not', "aren't":'are not', "don't":'do not', "doesn't":'does not', "didn't":'did not', "i'm":'i am', "she's":'she is', "he's":'he is', "it's":'it is', "we're":'we are', "they're":'they are', "there's":'there is', "can't":'cannot', "won't":'will not'};
+  s = s.replace(/[a-z]+'[a-z]+/g, function (w) { return map[w] || w; });
+  s = s.replace(/\bcan not\b/g, 'cannot');
+  /* "she is not" y "she isn't" quedan iguales; "she's not" → she is not */
+  return s;
+}
+function corregirTexto(resp, correcta, alts) {
+  var r = normalizar(resp);
+  var lista = [correcta].concat(alts || []).map(normalizar);
+  if (lista.indexOf(r) >= 0) return {ok:true, msg:''};
+  if (/\bsome\b/.test(r) && /\bnot\b|\bno\b/.test(r)) return {ok:false, msg:'En una oración negativa cambia some por any.'};
+  var conNo = lista.map(function (x) { return x.replace(/ not any /, ' no ').replace(/(do|does) no have/, 'have'); });
+  if (/\bno\b/.test(r) && !/\bnot\b/.test(r)) return {ok:false, msg:'Con «no» también se puede negar, pero este ejercicio pide verbo negativo + any.'};
+  if (!/\bnot\b|\bcannot\b/.test(r)) return {ok:false, msg:'Falta hacer negativo el verbo (isn\'t, aren\'t, don\'t, doesn\'t).'};
+  if (!/\bany\b/.test(r)) return {ok:false, msg:'Falta any.'};
+  if (/\bdoes not\b/.test(r) && /\bdo not\b/.test(lista[0])) return {ok:false, msg:'Revisa el auxiliar: con I, we, you y they va don\'t; con he, she e it va doesn\'t.'};
+  if (/\bdo not\b/.test(r) && /\bdoes not\b/.test(lista[0])) return {ok:false, msg:'Revisa el auxiliar: con he, she e it va doesn\'t.'};
+  if (/\b(needs|wants|has)\b/.test(r) && /\bdo(es)? not\b/.test(r)) return {ok:false, msg:'Después de don\'t o doesn\'t el verbo va sin -s: doesn\'t need, doesn\'t have.'};
+  return {ok:false, msg:''};
+}
+
+/* ---------- Generadores de práctica ---------- */
+var GENERADORES = [
+  {id:'contable', tema:'someany', nombre:'¿Contable o no contable?', gen:genContable},
+  {id:'someany', tema:'someany', nombre:'Some o any', gen:genSomeAny},
+  {id:'negativa', tema:'someany', nombre:'De afirmativa a negativa', gen:genNegativa, escrito:true},
+  {id:'cantidad', tema:'cantidad', nombre:'Too many, too much, enough', gen:genCantidad},
+  {id:'fewerless', tema:'fewerless', nombre:'Fewer o less', gen:genFewerLess},
+  {id:'pronombres', tema:'pronombres', nombre:'Pronombres indefinidos', gen:genPronombres},
+  {id:'carta', tema:'carta', nombre:'Convenciones de la carta formal', gen:genCarta}
+];
+
+function genContable() {
+  var x = pick(NOUNS);
+  var exp = x.cont ? 'El recipiente se cuenta (one bottle, two bottles), aunque lo que hay dentro no se cuente.' :
+    x.c ? '«' + x.n + '» tiene plural y se puede contar: one, two, three…' : '«' + x.n + '» no tiene plural: no dices «two ' + x.n + 's». Para contarlo usa un recipiente o una medida.';
+  return {enunciado:'¿Este sustantivo es contable o no contable? <span class="small muted">(' + x.es + ')</span>', frase:x.n, opciones:['Contable', 'No contable'], correcta:x.c ? 'Contable' : 'No contable', exp:exp, en:false};
+}
+
+function genSomeAny() {
+  var x = pick(NOUNS), be = x.c ? 'are' : 'is', bn = x.c ? 'aren\'t' : 'isn\'t';
+  var kind = pick(['af', 'af', 'neg', 'neg', 'q']);
+  var s, a, e;
+  if (kind === 'af') {
+    var t = ['We need ___ ' + x.n + '.', 'She\'s buying ___ ' + x.n + '.', 'I want ___ ' + x.n + ' for the trip.', 'They have ___ ' + x.n + ' here.'];
+    if (x.p) t.push('There ' + be + ' ___ ' + x.n + ' in aisle 2.');
+    s = pick(t); a = 'some'; e = 'Es una oración afirmativa, así que va some. «' + x.n + '» es ' + tipoTxt(x) + '; some sirve con los dos.';
+  } else if (kind === 'neg') {
+    var t2 = ['We don\'t have ___ ' + x.n + '.', 'He doesn\'t need ___ ' + x.n + '.', 'I didn\'t buy ___ ' + x.n + '.', 'There ' + bn + ' ___ ' + x.n + ' left.'];
+    s = pick(t2); a = 'any'; e = 'El verbo es negativo, así que va any. «' + x.n + '» es ' + tipoTxt(x) + '; any sirve con los dos.';
+  } else {
+    var t3 = ['Do you need ___ ' + x.n + '?', (x.c ? 'Are' : 'Is') + ' there ___ ' + x.n + ' in the store?', 'Did they buy ___ ' + x.n + '?'];
+    s = pick(t3); a = 'some o any'; e = 'Es una pregunta: el libro dice que sirven some y any. Any es lo más común; some suena a que esperas un sí.';
+  }
+  return {enunciado:'Completa la oración.', frase:s.replace('___', BL), opciones:['some', 'any', 'some o any'], correcta:a, exp:e, en:true};
+}
+
+var NEG_PATRONES = [
+  {af:'I need some {n}.', neg:'I don\'t need any {n}.'},
+  {af:'We have some {n}.', neg:'We don\'t have any {n}.'},
+  {af:'She wants some {n}.', neg:'She doesn\'t want any {n}.', alt:['She does not want any {n}.']},
+  {af:'He has some {n}.', neg:'He doesn\'t have any {n}.'},
+  {af:'They are buying some {n}.', neg:'They aren\'t buying any {n}.', alt:['They\'re not buying any {n}.']},
+  {af:'The salon needs some {n}.', neg:'The salon doesn\'t need any {n}.'},
+  {af:'My sister bought some {n}.', neg:'My sister didn\'t buy any {n}.'},
+  {af:'There {be} some {n} in the bathroom.', neg:'There {bn} any {n} in the bathroom.', p:1}
+];
+function genNegativa() {
+  var x = pick(NOUNS), pt;
+  do { pt = pick(NEG_PATRONES); } while (pt.p && !x.p);
+  function f(s) { return s.replace(/\{n\}/g, x.n).replace('{be}', x.c ? 'are' : 'is').replace('{bn}', x.c ? 'aren\'t' : 'isn\'t'); }
+  var af = f(pt.af), neg = f(pt.neg), alts = (pt.alt || []).map(f);
+  if (/^There/.test(af)) alts.push(af.replace('some', 'not any').replace(/^There (is|are)/, 'There $1'));
+  var e = 'Haz negativo el verbo y cambia some por any.';
+  if (/don't|doesn't|didn't/.test(neg)) e += ' Este verbo necesita auxiliar (' + neg.match(/don't|doesn't|didn't/)[0] + ') y después va en forma base.';
+  return {enunciado:'Escribe la oración en negativo.', frase:af, correcta:neg, alts:alts, exp:e, escrito:true};
+}
+
+var CANTIDAD = [
+  {s:'There are ___ people in this line. Let\'s come back later.', a:'too many', n:'people', c:1},
+  {s:'I put ___ salt in the soup. Nobody can eat it.', a:'too much', n:'salt', c:0},
+  {s:'We have ___ chairs for everyone. Nobody needs to stand.', a:'enough', n:'chairs', c:1},
+  {s:'She spends ___ time on her phone. She never studies.', a:'too much', n:'time', c:0},
+  {s:'There isn\'t ___ shampoo for both of us. Let\'s buy another bottle.', a:'enough', n:'shampoo', c:0},
+  {s:'There are ___ options on this website. I can\'t decide.', a:'too many', n:'options', c:1},
+  {s:'He drinks ___ coffee. He can\'t sleep at night.', a:'too much', n:'coffee', c:0},
+  {s:'Do we have ___ money for the tickets?', a:'enough', n:'money', c:0},
+  {s:'This class has ___ students. The teacher can\'t help everyone.', a:'too many', n:'students', c:1},
+  {s:'There aren\'t ___ towels for all the guests.', a:'enough', n:'towels', c:1},
+  {s:'I have ___ e-mails in my inbox. I\'ll never read them all.', a:'too many', n:'e-mails', c:1},
+  {s:'Is there ___ sunscreen for a whole week at the beach?', a:'enough', n:'sunscreen', c:0},
+  {s:'You used ___ hairspray. Your hair feels hard.', a:'too much', n:'hairspray', c:0},
+  {s:'The salon has ___ customers today. They need more stylists.', a:'too many', n:'customers', c:1},
+  {s:'I\'m not hungry. I ate ___ cookies.', a:'too many', n:'cookies', c:1},
+  {s:'We don\'t have ___ time to finish the project.', a:'enough', n:'time', c:0},
+  {s:'There\'s ___ noise in this café. I can\'t hear you.', a:'too much', n:'noise', c:0},
+  {s:'Are there ___ razors for the trip, or should I buy more?', a:'enough', n:'razors', c:1},
+  {s:'Don\'t put ___ makeup on. It\'s just a quick meeting.', a:'too much', n:'makeup', c:0},
+  {s:'There were ___ cars on the road. We arrived late.', a:'too many', n:'cars', c:1}
+];
+function genCantidad() {
+  var x = pick(CANTIDAD), e;
+  if (x.a === 'enough') e = 'La oración pregunta o dice si la cantidad alcanza → enough. Enough sirve con contables y no contables.';
+  else e = 'La oración describe un exceso (más de lo que se quiere) → too. «' + x.n + '» es ' + (x.c ? 'contable → too many.' : 'no contable → too much.');
+  return {enunciado:'Completa la oración.', frase:x.s.replace('___', BL), opciones:['too many', 'too much', 'enough'], correcta:x.a, exp:e, en:true};
+}
+
+function genFewerLess() {
+  var x = pick(NOUNS.filter(function (n) { return !n.cont; }));
+  var places = ['The Cosmetique store', 'This pharmacy', 'The new salon', 'Our supermarket', 'The hotel shop'];
+  var p1 = pick(places), p2;
+  do { p2 = pick(places); } while (p2 === p1);
+  var tpl = x.c ? pick(['{p} has ___ {n} than {q}.', 'This year there are ___ {n} than last year.', 'I want ___ {n} this time.']) :
+    pick(['{p} has ___ {n} than {q}.', 'There\'s ___ {n} here than I expected.', 'You should use ___ {n}.']);
+  var s = tpl.replace('{p}', p1).replace('{q}', p2.replace(/^The|^This|^Our/, function (m) { return m.toLowerCase(); })).replace('{n}', x.n);
+  var e = '«' + x.n + '» es ' + (x.c ? 'contable → fewer.' : 'no contable → less.');
+  return {enunciado:'Completa la oración. <span class="small muted">(' + x.es + ')</span>', frase:s.replace('___', BL), opciones:['fewer', 'less'], correcta:x.c ? 'fewer' : 'less', exp:e, en:true};
+}
+
+var PRONOMBRES = [
+  {s:'There\'s ___ in the fridge. It\'s completely empty.', o:['nothing', 'anything'], a:'nothing', e:'There\'s es afirmativo; «nada» en afirmativa es nothing.'},
+  {s:'There isn\'t ___ in the fridge.', o:['anything', 'nothing'], a:'anything', e:'Ya hay un negativo (isn\'t) → anything. Con nothing sería doble negación.'},
+  {s:'I bought ___ for your birthday. Open it!', o:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+  {s:'She didn\'t say ___ about the problem.', o:['anything', 'nothing'], a:'anything', e:'Verbo negativo (didn\'t) → anything.'},
+  {s:'___ is ready. Let\'s go!', o:['Everything', 'Anything'], a:'Everything', e:'Afirmativa con el sentido de «todo» → everything.'},
+  {s:'___ can convince me to get a pedicure.', o:['Nothing', 'Anything'], a:'Nothing', e:'El verbo can es afirmativo; para decir «nada me convence» usa nothing.'},
+  {s:'We don\'t need ___ else, thanks.', o:['anything', 'nothing'], a:'anything', e:'Verbo negativo (don\'t) → anything.'},
+  {s:'I want to tell you ___ important.', o:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+  {s:'The store was closed, so I couldn\'t buy ___.', o:['anything', 'nothing'], a:'anything', e:'Verbo negativo (couldn\'t) → anything.'},
+  {s:'___ works! I tried every cream and my skin is the same.', o:['Nothing', 'Anything'], a:'Nothing', e:'El verbo works es afirmativo; «nada funciona» → nothing.'},
+  {s:'Is ___ OK? You look worried.', o:['everything', 'nothing'], a:'everything', e:'En preguntas de sí o no sirven something, anything o everything. Nothing no.'},
+  {s:'I can\'t find ___ about this product online.', o:['anything', 'something'], a:'anything', e:'Verbo negativo (can\'t) → anything.'},
+  {s:'There\'s ___ wrong with my car. It makes a strange noise.', o:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
+  {s:'He has ___ he needs: a house, a car and a good job.', o:['everything', 'anything'], a:'everything', e:'Afirmativa con el sentido de «todo» → everything.'},
+  {s:'I have ___ to do today. I\'m free!', o:['nothing', 'anything'], a:'nothing', e:'I have es afirmativo; «no tengo nada que hacer» → I have nothing to do.'},
+  {s:'They didn\'t eat ___ at the party.', o:['anything', 'nothing'], a:'anything', e:'Verbo negativo (didn\'t) → anything.'},
+  {s:'___ in this box is on sale. Every item is 50% off.', o:['Everything', 'Something'], a:'Everything', e:'Every item = todo → everything.'},
+  {s:'Do you have ___ you need for the trip?', o:['everything', 'nothing'], a:'everything', e:'Pregunta de sí o no con el sentido de «todo» → everything.'}
+];
+function genPronombres() {
+  var x = pick(PRONOMBRES);
+  return {enunciado:'Elige el pronombre correcto.', frase:x.s.replace('___', BL), opciones:shuffle(x.o), correcta:x.a, exp:x.e, en:true};
+}
+
+var CARTA_Q = [
+  {p:'No sabes el nombre ni si es hombre o mujer. ¿Qué saludo usas?', o:['Dear Sir or Madam:', 'Dear Friend,', 'Hi there!', 'Dear Manager Smith,'], a:'Dear Sir or Madam:', e:'Si no sabes el nombre ni el género: Dear Sir or Madam: o To whom it may concern:'},
+  {p:'¿Qué signo va después del saludo en una carta formal?', o:['Dos puntos (:)', 'Coma (,)', 'Punto (.)', 'Exclamación (!)'], a:'Dos puntos (:)', e:'En una carta formal es común usar dos puntos: Dear Mr. Smith:'},
+  {p:'Le escribes a Robert Smith. ¿Cuál es el saludo correcto?', o:['Dear Mr. Smith:', 'Dear Robert Smith:', 'Dear Mr. Robert:', 'Dear Smith:'], a:'Dear Mr. Smith:', e:'El formato es Dear + título + apellido.'},
+  {p:'¿Cuál NO es una despedida formal?', o:['See you soon!', 'Sincerely,', 'Cordially,', 'Best regards,'], a:'See you soon!', e:'See you soon! es informal. Las formales del libro son Sincerely, Sincerely yours, Cordially y Best regards.'},
+  {p:'En un e-mail de negocios, ¿qué elemento no es necesario?', o:['Las direcciones', 'El saludo', 'La despedida', 'Tu nombre'], a:'Las direcciones', e:'El libro dice que en un e-mail no hace falta incluir direcciones.'},
+  {p:'En el modelo del libro, ¿dónde va tu dirección?', o:['Arriba a la derecha', 'Abajo a la izquierda', 'Debajo de la firma', 'Después del saludo'], a:'Arriba a la derecha', e:'Tu dirección va arriba a la derecha y la fecha justo debajo.'},
+  {p:'¿Qué va justo debajo de tu dirección?', o:['La fecha', 'El saludo', 'La firma', 'La dirección del destinatario'], a:'La fecha', e:'Orden: tu dirección, fecha, dirección del destinatario, saludo.'},
+  {p:'¿Qué va entre la despedida (Sincerely,) y tu nombre escrito a máquina?', o:['Tu firma a mano', 'La fecha', 'Tu dirección', 'El saludo'], a:'Tu firma a mano', e:'Despedida → firma a mano → nombre escrito.'},
+  {p:'Le escribes a una amiga, Marie, en una carta menos formal. ¿Cómo saludas?', o:['Dear Marie,', 'Dear Marie:', 'Dear Ms. Marie:', 'To whom it may concern:'], a:'Dear Marie,', e:'En cartas menos formales la coma es apropiada.'},
+  {p:'¿Cuál despedida está bien escrita?', o:['Sincerely yours,', 'sincerely yours:', 'Sincerely Yours.', 'Yours sincerely!'], a:'Sincerely yours,', e:'Primera letra en mayúscula, la segunda palabra en minúscula y una coma al final.'},
+  {p:'¿Cómo está escrita la fecha en el modelo del libro?', o:['December 14, 2016', '14/12/2016', '14 december 2016', 'Dec-14-16'], a:'December 14, 2016', e:'Estilo estadounidense: mes con mayúscula, día, coma y año.'},
+  {p:'¿Qué datos lleva la dirección del destinatario?', o:['Nombre o cargo, negocio y dirección', 'Solo el país', 'Tu e-mail', 'La fecha'], a:'Nombre o cargo, negocio y dirección', e:'En el modelo: Manager, The Tipton Spa, Tipton Hotel, 2200 Byway Street, Sylvania, Sorrento.'}
+];
+function genCarta() {
+  var x = pick(CARTA_Q);
+  return {enunciado:x.p, frase:'', opciones:shuffle(x.o), correcta:x.a, exp:x.e, en:/^(Dear|See|Sincerely|sincerely|Yours|To whom|December|14)/.test(x.o[0])};
+}
+
+/* ---------- Carta modelo ---------- */
+var PARTES = [
+  {id:'tudir', n:'Tu dirección', en:'your address', d:'Arriba a la derecha: calle, ciudad y, si quieres, tu e-mail. No va tu nombre aquí.'},
+  {id:'fecha', n:'Fecha', en:'date', d:'Justo debajo de tu dirección. Formato: mes, día, coma, año → December 14, 2016.'},
+  {id:'dest', n:'Dirección del destinatario', en:'recipient\'s address', d:'A la izquierda: nombre o cargo, empresa y dirección completa.'},
+  {id:'saludo', n:'Saludo', en:'salutation', d:'Dear Mr./Ms. + apellido + dos puntos. Si no sabes el nombre: Dear Sir or Madam:'},
+  {id:'cuerpo', n:'Cuerpo', en:'body', d:'El mensaje. Aquí: qué servicio recibiste, qué te gustó y qué vas a hacer (recomendarlo).'},
+  {id:'desp', n:'Despedida', en:'complimentary close', d:'Sincerely, · Sincerely yours, · Cordially, · Best regards, Siempre con coma.'},
+  {id:'firma', n:'Firma', en:'signature', d:'Tu firma a mano, entre la despedida y tu nombre escrito.'},
+  {id:'nombre', n:'Nombre escrito', en:'typewritten name', d:'Tu nombre completo escrito, debajo de la firma.'}
+];
+var MODELO = {
+  tudir:'657 Boulevard East\nNew Compton, Fortunia\ne-mail: fclasson@vmail.gr',
+  fecha:'December 14, 2016',
+  dest:'Manager\nThe Tipton Spa\nTipton Hotel\n2200 Byway Street\nSylvania, Sorrento',
+  saludo:'Dear Sir or Madam:',
+  cuerpo:'I\'m writing to tell you that I was very happy with the service provided by the staff of the Tipton Spa when I was in Sylvania last week. The hair stylist gave me a wonderful haircut, and the masseur was really top notch. I particularly enjoyed the relaxing music that played over the public address system. Finally, the prices were fair, and I left the spa feeling great.\n\nI want you to know that I am recommending the Tipton Spa to all my friends and have told them that they should visit you even if they are staying in another hotel or if they are in Sylvania for the day. In fact, I have told them that it\'s worth traveling to Sylvania just to visit the spa. Congratulations on such a wonderful spa.',
+  desp:'Sincerely,', firma:'Francine Classon', nombre:'Francine Classon'
+};
+var DESPEDIDAS = ['sincerely,', 'sincerely yours,', 'cordially,', 'best regards,', 'yours truly,', 'respectfully,', 'yours sincerely,', 'kind regards,', 'regards,'];
+var MESES = 'January|February|March|April|May|June|July|August|September|October|November|December';
+
+function revisarCarta(c) {
+  var out = [];
+  function add(estado, txt) { out.push({e:estado, t:txt}); }
+  var tud = (c.c_tudir || '').trim();
+  if (!tud) add('pend', 'Tu dirección (arriba a la derecha).');
+  else if (tud.split('\n').filter(function (l) { return l.trim(); }).length < 2) add('bad', 'Tu dirección parece incompleta: pon calle y ciudad en renglones separados.');
+  else add('ok', 'Tu dirección.');
+  var f = (c.c_fecha || '').trim();
+  if (!f) add('pend', 'La fecha.');
+  else if (new RegExp('^(' + MESES + ') \\d{1,2}, \\d{4}$').test(f)) add('ok', 'Fecha con el formato del libro.');
+  else add('bad', 'Escribe la fecha como en el libro: mes con mayúscula, día, coma y año (November 18, 2026).');
+  var d = (c.c_dest || '').trim();
+  if (!d) add('pend', 'La dirección del destinatario.');
+  else if (d.split('\n').filter(function (l) { return l.trim(); }).length < 3) add('bad', 'Al destinatario le faltan datos: nombre o cargo, negocio y dirección, cada uno en su renglón.');
+  else add('ok', 'Dirección del destinatario.');
+  var s = (c.c_saludo || '').trim();
+  if (!s) add('pend', 'El saludo.');
+  else if (/^(Dear Sir or Madam|To whom it may concern):$/i.test(s) || /^Dear (Mr\.|Ms\.|Mrs\.|Dr\.|Miss|Professor) [A-Z][\w'-]+( [A-Z][\w'-]+)?:$/.test(s)) add('ok', 'Saludo formal con dos puntos.');
+  else if (/,$/.test(s)) add('bad', 'En una carta formal, después del saludo van dos puntos (:), no coma.');
+  else if (/^Dear (Mr|Ms|Mrs|Dr) /.test(s)) add('bad', 'Falta el punto en la abreviatura: Mr. / Ms. / Mrs. / Dr.');
+  else if (/^Dear [A-Z][a-z]+:$/.test(s)) add('bad', 'Usa título + apellido (Dear Ms. Lopez:). Si no sabes el nombre, Dear Sir or Madam:');
+  else if (!/:$/.test(s)) add('bad', 'Termina el saludo con dos puntos (:).');
+  else add('bad', 'Formato del saludo: Dear + título + apellido + dos puntos, o Dear Sir or Madam:');
+  var b = (c.c_cuerpo || '').trim(), words = b ? b.split(/\s+/).length : 0;
+  if (!words) add('pend', 'El cuerpo de la carta.');
+  else if (words < 50) add('bad', 'El cuerpo tiene ' + words + ' palabras. Cuenta qué servicio recibiste y qué te gustó (al menos 50 palabras).');
+  else add('ok', 'Cuerpo de ' + words + ' palabras.');
+  var ds = (c.c_desp || '').trim();
+  if (!ds) add('pend', 'La despedida.');
+  else if (DESPEDIDAS.indexOf(ds.toLowerCase()) >= 0 && /^[A-Z]/.test(ds) && ds.slice(1, -1) === ds.slice(1, -1).toLowerCase()) add('ok', 'Despedida formal con coma.');
+  else if (DESPEDIDAS.indexOf(ds.toLowerCase() + ',') >= 0) add('bad', 'Pon una coma después de la despedida: ' + ds + ',');
+  else if (DESPEDIDAS.indexOf(ds.toLowerCase()) >= 0) add('bad', 'Solo la primera palabra va con mayúscula: Sincerely yours, / Best regards,');
+  else add('bad', 'Usa una despedida formal: Sincerely, · Sincerely yours, · Cordially, · Best regards,');
+  if (!(c.c_nombre || '').trim()) add('pend', 'Tu nombre escrito al final.');
+  else add('ok', 'Tu nombre.');
+  return out;
+}
+
+if (typeof module !== 'undefined') module.exports = {normalizar:normalizar, corregirTexto:corregirTexto, GENERADORES:GENERADORES, LIBRO:LIBRO, revisarCarta:revisarCarta, MODELO:MODELO};
+</script>
+<script>
+(function () {
+'use strict';
+var $ = function (s, el) { return (el || document).querySelector(s); };
+var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]; }); }
+function temaNombre(id) { for (var i = 0; i < TEMAS.length; i++) if (TEMAS[i].id === id) return TEMAS[i].nombre; return id; }
+
+/* ================= Progreso y almacenamiento ================= */
+var LS_KEY = 'cuaderno-ingles-progreso-v1';
+function progVacio() { return {v:1, practica:{}, racha:0, mejorRacha:0, libro:{}, flash:{}, carta:{}, orden:0, t:0}; }
+var prog = progVacio();
+try { var raw = localStorage.getItem(LS_KEY); if (raw) prog = Object.assign(progVacio(), JSON.parse(raw)); } catch (e) {}
+var dbRef = null, dbOk = false, saveTimer = null;
+
+function guardar() {
+  prog.t = Date.now();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function () {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(prog)); } catch (e) {}
+    if (dbRef && dbOk) dbRef.set(JSON.parse(JSON.stringify(prog))).catch(function () { dbOk = false; pintarEstadoGuardado(); });
+  }, 900);
+  pintarChip();
+}
+function iniciarCuenta() {
+  if (!window.claude || typeof window.claude.use !== 'function') return;
+  Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function (res) {
+    var db = res[0], user = res[1];
+    if (!db || !user) return;
+    return user.id().then(function (id) {
+      if (!id) return;
+      dbRef = db.doc('data/users/' + id + '/progreso');
+      return dbRef.get().then(function (snap) {
+        dbOk = true;
+        var d = snap.exists ? snap.data() : null;
+        if (d && (d.t || 0) > (prog.t || 0)) {
+          prog = Object.assign(progVacio(), JSON.parse(JSON.stringify(d)));
+          try { localStorage.setItem(LS_KEY, JSON.stringify(prog)); } catch (e) {}
+          pintarTodo();
+        } else if (prog.t) {
+          dbRef.set(JSON.parse(JSON.stringify(prog))).catch(function () { dbOk = false; pintarEstadoGuardado(); });
+        }
+        pintarEstadoGuardado();
+      });
+    });
+  }).catch(function () { dbOk = false; pintarEstadoGuardado(); });
+}
+function totales() {
+  var i = 0, a = 0;
+  for (var k in prog.practica) { i += prog.practica[k].i || 0; a += prog.practica[k].a || 0; }
+  return {i:i, a:a};
+}
+function pintarChip() {
+  var t = totales();
+  $('#chipAciertos').textContent = t.a + '/' + t.i;
+  $('#chipRacha').textContent = prog.racha || 0;
+}
+function pintarEstadoGuardado() {
+  $('#storeStatus').textContent = dbOk ? 'Tu progreso se guarda en tu cuenta y en este navegador.' :
+    'Tu progreso se guarda en este navegador. Si abres la página en otro dispositivo, empezará en cero.';
+}
+function registrar(gid, ok) {
+  var s = prog.practica[gid] || (prog.practica[gid] = {i:0, a:0});
+  s.i++;
+  if (ok) { s.a++; prog.racha = (prog.racha || 0) + 1; prog.mejorRacha = Math.max(prog.mejorRacha || 0, prog.racha); }
+  else prog.racha = 0;
+  guardar();
+}
+
+/* ================= Navegación ================= */
+var VISTAS = ['gramatica', 'libro', 'practica', 'carta', 'progreso'];
+function mostrarVista() {
+  var h = (location.hash || '').replace('#', '');
+  if (VISTAS.indexOf(h) < 0) h = 'gramatica';
+  VISTAS.forEach(function (v) { $('#view-' + v).hidden = v !== h; });
+  $$('nav.tabs a').forEach(function (a) { if (a.dataset.view === h) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  if (h === 'progreso') pintarProgreso();
+  if (h === 'practica' && !pr.problem) nuevoProblema(pr.gid);
+}
+function ir(v) { if (location.hash !== '#' + v) location.hash = v; else mostrarVista(); window.scrollTo(0, 0); }
+window.addEventListener('hashchange', function () { mostrarVista(); window.scrollTo(0, 0); });
+$('#chipProg').addEventListener('click', function () { ir('progreso'); });
+
+/* ================= Gramática ================= */
+var gram = {tema:'someany'};
+function pintarTopicNav() {
+  $('#topicNav').innerHTML = TEMAS.filter(function (t) { return GRAM[t.id]; }).map(function (t) {
+    return '<button class="pill" type="button" data-t="' + t.id + '" aria-pressed="' + (gram.tema === t.id) + '">' + esc(t.nombre) + '</button>';
+  }).join('');
+  $$('#topicNav button').forEach(function (b) { b.addEventListener('click', function () { gram.tema = b.dataset.t; pintarGram(); }); });
+}
+function pintarGram() {
+  pintarTopicNav();
+  var html = '<div class="grid-2">' + GRAM[gram.tema].map(function (r) {
+    return '<div class="panel rule"><h3>' + r.t + '</h3><p class="what">' + r.w + '</p><div class="lined">' +
+      r.ej.map(function (e) { return '<div>' + e + '</div>'; }).join('') + '</div></div>';
+  }).join('') + '</div>';
+  if (gram.tema === 'someany') {
+    html += '<div class="panel rule"><h3>Recuerda: contables y no contables</h3>' +
+      '<p>Los ' + C('contables') + ' se pueden contar uno por uno: tienen singular y plural (1 nail file, 3 combs). Los ' + N('no contables') + ' no se cuentan y no tienen plural. Para contarlos usa recipientes, cantidades u otros modificadores:</p>' +
+      '<div class="table-scroll"><table class="qtable"><tr><th>Recipiente o medida</th><th>Ejemplo</th></tr>' +
+      '<tr><td>a bottle of</td><td class="en">shampoo / aftershave</td></tr><tr><td>a tube of</td><td class="en">toothpaste / lipstick</td></tr>' +
+      '<tr><td>a bar of</td><td class="en">soap</td></tr><tr><td>a can of</td><td class="en">hairspray / deodorant / shaving cream</td></tr>' +
+      '<tr><td>250 milliliters of</td><td class="en">sunscreen</td></tr></table></div></div>';
+  }
+  if (gram.tema === 'cantidad' || gram.tema === 'fewerless') {
+    html += '<div class="panel table-scroll"><table class="qtable"><tr><th></th><th>' + C('Contables') + ' (plural)</th><th>' + N('No contables') + '</th></tr>' +
+      '<tr><th>Demasiado</th><td class="en">too many razors</td><td class="en">too much toothpaste</td></tr>' +
+      '<tr><th>Suficiente</th><td class="en">enough razors</td><td class="en">enough shampoo</td></tr>' +
+      '<tr><th>Menos</th><td class="en">fewer brands</td><td class="en">less shampoo</td></tr></table></div>';
+  }
+  $('#gramContent').innerHTML = html;
+}
+
+var fl = {deck:'todas', i:0};
+function mazo() { return fl.deck === 'todas' ? FLASH : FLASH.filter(function (c) { return prog.flash[c.id] !== 'se'; }); }
+function pintarFlash() {
+  var m = mazo(), card = $('#flashcard');
+  card.classList.remove('flipped');
+  if (!m.length) { $('#flashA').innerHTML = 'No tienes tarjetas por repasar'; $('#flashB').innerHTML = 'Cambia a «Todas» para verlas de nuevo'; $('#flashPos').textContent = '0/0'; return; }
+  if (fl.i >= m.length) fl.i = 0;
+  if (fl.i < 0) fl.i = m.length - 1;
+  var c = m[fl.i];
+  $('#flashA').innerHTML = c.a;
+  setTimeout(function () { $('#flashB').innerHTML = c.b; }, 120);
+  var est = prog.flash[c.id] === 'se' ? ' · la sabes' : prog.flash[c.id] === 'repasar' ? ' · por repasar' : '';
+  $('#flashPos').textContent = (fl.i + 1) + '/' + m.length + est;
+}
+$('#flashcard').addEventListener('click', function () { this.classList.toggle('flipped'); });
+$('#flashPrev').addEventListener('click', function () { fl.i--; pintarFlash(); });
+$('#flashNext').addEventListener('click', function () { fl.i++; pintarFlash(); });
+function marcarFlash(v) {
+  var m = mazo(); if (!m.length) return;
+  prog.flash[m[fl.i].id] = v; guardar();
+  if (!(fl.deck === 'repasar' && v === 'se')) fl.i++;
+  pintarFlash();
+}
+$('#flashSe').addEventListener('click', function () { marcarFlash('se'); });
+$('#flashRepasar').addEventListener('click', function () { marcarFlash('repasar'); });
+$$('#flashDeck button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    fl.deck = b.dataset.deck; fl.i = 0;
+    $$('#flashDeck button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    pintarFlash();
+  });
+});
+
+/* ================= Ejercicios del libro ================= */
+function libroStats(sec) {
+  var hechos = 0, bien = 0;
+  sec.items.forEach(function (it, i) { var r = prog.libro[sec.id + i]; if (r != null) { hechos++; if (r.ok) bien++; } });
+  return {hechos:hechos, bien:bien, total:sec.items.length};
+}
+function frase(s, resp, ok) {
+  if (resp == null) return esc(s).replace('___', '<span class="blank">&nbsp;</span>');
+  return esc(s).replace('___', '<span class="blank filled' + (ok ? '' : ' bad') + '">' + esc(resp) + '</span>');
+}
+function pintarLibro() {
+  $('#bookList').innerHTML = LIBRO.map(function (sec) {
+    var st = libroStats(sec);
+    var badge = st.hechos === st.total ? '<span class="badge done">' + st.bien + '/' + st.total + ' correctas</span>' :
+      st.hechos ? '<span class="badge pend">' + st.hechos + ' de ' + st.total + ' hechas</span>' : '<span class="badge">Sin empezar</span>';
+    var items = sec.items.map(function (it, i) {
+      var id = sec.id + i, r = prog.libro[id], body = '';
+      if (sec.tipo === 'texto') {
+        body = '<div class="sent">' + esc(it.s) + '</div>';
+        if (r) {
+          body += '<div class="explain ' + (r.ok ? 'ok' : 'bad') + '"><b class="t">' + (r.ok ? 'Correcto' : 'Tu respuesta: ' + esc(r.r)) + '</b>' +
+            '<span class="en">' + esc(it.a) + '</span><br>' + esc(it.e) + (r.msg ? '<br>' + esc(r.msg) : '') + '</div>';
+        } else {
+          body += '<div class="typed"><input class="field" id="in-' + id + '" data-id="' + id + '" placeholder="Escribe la oración en negativo" autocomplete="off" autocapitalize="sentences" spellcheck="false">' +
+            '<button class="btn primary" type="button" data-check="' + id + '">Comprobar</button></div>';
+        }
+      } else {
+        var ops = it.ops || sec.ops;
+        body = '<div class="sent">' + frase(it.s, r ? r.r : null, r ? r.ok : true) + '</div>';
+        body += '<div class="choices">' + ops.map(function (o) {
+          var cls = r ? (o === it.a ? ' right' : (o === r.r ? ' wrong' : '')) : '';
+          return '<button class="choice' + cls + '" type="button" data-id="' + id + '" data-o="' + esc(o) + '"' + (r ? ' disabled' : '') + '>' + esc(o) + '</button>';
+        }).join('') + '</div>';
+        if (r) body += '<div class="explain ' + (r.ok ? 'ok' : 'bad') + '"><b class="t">' + (r.ok ? 'Correcto' : 'La respuesta es ' + esc(it.a)) + '</b>' + esc(it.e) + '</div>';
+      }
+      return '<li class="item"><span class="num">' + (i + 1) + '</span><div class="body">' + body + '</div></li>';
+    }).join('');
+    return '<div class="panel book"><div class="book-head"><div class="meta"><span class="eyebrow">' + esc(temaNombre(sec.tema)) + '</span><h3>' + esc(sec.titulo) + '</h3>' +
+      '<p class="muted small">' + esc(sec.instr) + '</p></div><div class="row">' + badge +
+      (st.hechos ? '<button class="btn ghost" type="button" data-reset="' + sec.id + '">Repetir</button>' : '') + '</div></div><ol class="items">' + items + '</ol></div>';
+  }).join('');
+}
+function libroItem(id) { var sec = LIBRO.filter(function (s) { return s.id === id[0]; })[0]; return {sec:sec, it:sec.items[+id.slice(1)]}; }
+$('#bookList').addEventListener('click', function (ev) {
+  var b = ev.target.closest('button'); if (!b) return;
+  if (b.dataset.reset) {
+    var sec = LIBRO.filter(function (s) { return s.id === b.dataset.reset; })[0];
+    sec.items.forEach(function (it, i) { delete prog.libro[sec.id + i]; });
+    guardar(); pintarLibro(); return;
+  }
+  if (b.dataset.check) { comprobarLibro(b.dataset.check); return; }
+  if (b.dataset.o != null && !b.disabled) {
+    var x = libroItem(b.dataset.id);
+    prog.libro[b.dataset.id] = {r:b.dataset.o, ok:b.dataset.o === x.it.a};
+    guardar(); pintarLibro();
+  }
+});
+$('#bookList').addEventListener('keydown', function (ev) {
+  if (ev.key === 'Enter' && ev.target.dataset && ev.target.dataset.id && ev.target.tagName === 'INPUT') comprobarLibro(ev.target.dataset.id);
+});
+function comprobarLibro(id) {
+  var inp = $('#in-' + id), v = inp.value.trim();
+  if (!v) { inp.focus(); return; }
+  var x = libroItem(id), res = corregirTexto(v, x.it.a, x.it.alt);
+  prog.libro[id] = {r:v, ok:res.ok, msg:res.msg};
+  guardar(); pintarLibro();
+}
+
+/* ================= Práctica ================= */
+var pr = {gid:GENERADORES[0].id, problem:null, done:false, counted:false};
+function pintarTipos() {
+  var html = '';
+  TEMAS.forEach(function (t) {
+    var gs = GENERADORES.filter(function (g) { return g.tema === t.id; });
+    if (!gs.length) return;
+    html += '<div><div class="tema-name">' + esc(t.nombre) + '</div>' + gs.map(function (g) {
+      var s = prog.practica[g.id] || {i:0, a:0}, pct = s.i ? Math.round(100 * s.a / s.i) : 0;
+      return '<button class="type-btn" type="button" data-g="' + g.id + '" aria-pressed="' + (pr.gid === g.id) + '"><span class="tn">' + esc(g.nombre) + '</span>' +
+        '<span class="ts"><span class="bar"><i style="width:' + pct + '%"></i></span><span class="mono">' + s.a + '/' + s.i + '</span></span></button>';
+    }).join('') + '</div>';
+  });
+  $('#typeList').innerHTML = html;
+}
+$('#typeList').addEventListener('click', function (ev) { var b = ev.target.closest('[data-g]'); if (b) nuevoProblema(b.dataset.g); });
+function genPorId(id) { return GENERADORES.filter(function (g) { return g.id === id; })[0]; }
+function nuevoProblema(gid) {
+  pr.gid = gid || pr.gid; pr.problem = genPorId(pr.gid).gen(); pr.done = false; pr.counted = false;
+  pintarTipos(); pintarProblema();
+}
+function pintarProblema() {
+  var p = pr.problem, g = genPorId(pr.gid), html = '<span class="eyebrow">' + esc(g.nombre) + '</span><p class="statement">' + p.enunciado + '</p>';
+  if (p.frase) html += '<div class="sent">' + p.frase + '</div>';
+  if (p.escrito) {
+    html += '<div class="typed"><input class="field" id="prIn" placeholder="Escribe aquí la oración negativa" autocomplete="off" spellcheck="false"' + (pr.done ? ' disabled' : '') + '>' +
+      '<button class="btn primary" type="button" id="prCheck"' + (pr.done ? ' disabled' : '') + '>Comprobar</button>' +
+      '<button class="btn ghost" type="button" id="prShow"' + (pr.done ? ' disabled' : '') + '>Ver respuesta</button></div>';
+  } else {
+    html += '<div class="opts">' + p.opciones.map(function (o) {
+      return '<button class="opt' + (p.en ? ' en' : '') + '" type="button" data-o="' + esc(o) + '">' + esc(o) + '</button>';
+    }).join('') + '</div>';
+  }
+  html += '<div id="prFb"></div><div class="row"><button class="btn" type="button" id="prNext">' + (pr.done ? 'Siguiente pregunta' : 'Saltar') + '</button></div>';
+  $('#problem').innerHTML = html;
+  if (p.escrito) {
+    var inp = $('#prIn');
+    inp.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') comprobarEscrito(); });
+    $('#prCheck').addEventListener('click', comprobarEscrito);
+    $('#prShow').addEventListener('click', function () {
+      if (!pr.counted) { registrar(pr.gid, false); pr.counted = true; pintarTipos(); }
+      terminar(false, '');
+    });
+  } else {
+    $$('#problem .opt').forEach(function (b) { b.addEventListener('click', function () { elegir(b); }); });
+  }
+  $('#prNext').addEventListener('click', function () { nuevoProblema(); });
+}
+function elegir(b) {
+  if (pr.done) return;
+  var p = pr.problem, ok = b.dataset.o === p.correcta;
+  pr.done = true; registrar(pr.gid, ok); pintarTipos();
+  $$('#problem .opt').forEach(function (x) { x.disabled = true; if (x.dataset.o === p.correcta) x.classList.add('right'); });
+  if (!ok) b.classList.add('wrong');
+  var bl = $('#problem .blank');
+  if (bl && p.correcta !== 'some o any') { bl.textContent = p.correcta; bl.classList.add('filled'); }
+  $('#prFb').innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'Correcto' : 'La respuesta es ' + esc(p.correcta)) + '<span>' + esc(p.exp) + '</span></div>';
+  $('#prNext').textContent = 'Siguiente pregunta';
+  $('#prNext').focus();
+}
+function comprobarEscrito() {
+  if (pr.done) return;
+  var inp = $('#prIn'), v = inp.value.trim(), p = pr.problem;
+  if (!v) { inp.focus(); return; }
+  var res = corregirTexto(v, p.correcta, p.alts);
+  if (!pr.counted) { registrar(pr.gid, res.ok); pr.counted = true; pintarTipos(); }
+  if (res.ok) terminar(true, '');
+  else $('#prFb').innerHTML = '<div class="feedback bad">Todavía no' + '<span>' + esc(res.msg || 'Revisa el verbo y el cuantificador.') + ' Corrígela y vuelve a comprobar, o toca «Ver respuesta».</span></div>';
+}
+function terminar(ok, msg) {
+  var p = pr.problem; pr.done = true;
+  $('#prIn').disabled = true; $('#prCheck').disabled = true; $('#prShow').disabled = true;
+  $('#prFb').innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'Correcto' : 'Respuesta') + '<span class="en">' + esc(p.correcta) + '</span><span>' + esc(p.exp) + '</span></div>';
+  $('#prNext').textContent = 'Siguiente pregunta'; $('#prNext').focus();
+}
+
+/* ================= Carta formal ================= */
+var cartaSel = null;
+function pintarModelo() {
+  function part(id, extra) { return '<span class="part' + (cartaSel === id ? ' on' : '') + '" data-part="' + id + '"' + (extra || '') + '>' + esc(MODELO[id]) + '</span>'; }
+  $('#modelLetter').innerHTML =
+    '<div class="right-block" style="display:flex; flex-direction:column; gap:10px">' + part('tudir') + part('fecha') + '</div>' +
+    '<div>' + part('dest') + '</div><div>' + part('saludo') + '</div><div>' + part('cuerpo') + '</div>' +
+    '<div style="display:flex; flex-direction:column; gap:2px">' + part('desp') + '<span class="part sig' + (cartaSel === 'firma' ? ' on' : '') + '" data-part="firma">' + esc(MODELO.firma) + '</span>' + part('nombre') + '</div>';
+  $('#partList').innerHTML = PARTES.map(function (p, i) {
+    return '<button class="part-btn" type="button" data-part="' + p.id + '" aria-pressed="' + (cartaSel === p.id) + '"><span class="pn">' + (i + 1) + '</span><span><span class="pt">' + esc(p.n) + '</span> <span class="small muted">' + esc(p.en) + '</span></span></button>';
+  }).join('');
+  var p = PARTES.filter(function (x) { return x.id === cartaSel; })[0];
+  $('#partInfo').innerHTML = p ? '<b>' + esc(p.n) + '</b> <span class="muted">(' + esc(p.en) + ')</span><br>' + esc(p.d) : 'Toca una parte de la carta o de esta lista.';
+}
+function selParte(ev) { var t = ev.target.closest('[data-part]'); if (!t) return; cartaSel = cartaSel === t.dataset.part ? null : t.dataset.part; pintarModelo(); }
+$('#modelLetter').addEventListener('click', selParte);
+$('#partList').addEventListener('click', selParte);
+
+var orden = {pool:[], done:[], errores:0};
+var ORDEN_TXT = {tudir:'657 Boulevard East…', fecha:'December 14, 2016', dest:'Manager, The Tipton Spa…', saludo:'Dear Sir or Madam:', cuerpo:'I\'m writing to tell you…', desp:'Sincerely,', firma:'(firma a mano)', nombre:'Francine Classon'};
+function iniciarOrden() { orden.pool = shuffle(PARTES.map(function (p) { return p.id; })); orden.done = []; orden.errores = 0; pintarOrden(); }
+function pintarOrden() {
+  function chip(id, cls) { var p = PARTES.filter(function (x) { return x.id === id; })[0]; return '<button class="chip ' + (cls || '') + '" type="button" data-id="' + id + '">' + esc(p.n) + '<span class="en">' + esc(ORDEN_TXT[id]) + '</span></button>'; }
+  $('#orderDone').innerHTML = orden.done.length ? orden.done.map(function (id) { return chip(id, 'right'); }).join('') : '<span class="small muted">Aquí aparece tu carta, en orden.</span>';
+  $('#orderPool').innerHTML = orden.pool.map(function (id) { return chip(id); }).join('');
+  $('#orderMsg').innerHTML = !orden.pool.length ? '<div class="feedback ok">¡Lista! ' + (orden.errores ? 'Con ' + orden.errores + ' error' + (orden.errores > 1 ? 'es' : '') + '.' : 'Sin errores.') + '<span>Orden: tu dirección, fecha, destinatario, saludo, cuerpo, despedida, firma y nombre.</span></div>' : '';
+}
+$('#orderPool').addEventListener('click', function (ev) {
+  var b = ev.target.closest('[data-id]'); if (!b) return;
+  var esperado = PARTES[orden.done.length].id;
+  if (b.dataset.id === esperado) {
+    orden.done.push(esperado); orden.pool.splice(orden.pool.indexOf(esperado), 1); pintarOrden();
+    if (!orden.pool.length) { prog.orden = Math.max(prog.orden || 0, 1); guardar(); }
+  } else {
+    orden.errores++; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+    var pEsp = PARTES[orden.done.length];
+    $('#orderMsg').innerHTML = '<div class="feedback bad">Todavía no<span>Después de ' + (orden.done.length ? esc(PARTES[orden.done.length - 1].n.toLowerCase()) : 'empezar la hoja') + ' no va eso. Pista: ' + esc(pEsp.d) + '</span></div>';
+  }
+});
+$('#orderReset').addEventListener('click', iniciarOrden);
+
+var CAMPOS = ['n_neg', 'n_dir', 'n_por', 'c_tudir', 'c_fecha', 'c_dest', 'c_saludo', 'c_cuerpo', 'c_desp', 'c_nombre'];
+function cargarCampos() { CAMPOS.forEach(function (id) { $('#' + id).value = (prog.carta && prog.carta[id]) || ''; }); pintarCarta(); }
+function leerCampos() { var c = {}; CAMPOS.forEach(function (id) { c[id] = $('#' + id).value; }); return c; }
+function pintarCarta() {
+  var c = leerCampos();
+  function v(id, ph, cls) { var s = (c[id] || '').trim(); return s ? '<span class="part ' + (cls || '') + '">' + esc(s) + '</span>' : '<span class="part ph">' + esc(ph) + '</span>'; }
+  var firma = (c.c_nombre || '').trim();
+  $('#previewLetter').innerHTML =
+    '<div class="right-block" style="display:flex; flex-direction:column; gap:10px">' + v('c_tudir', 'Tu dirección') + v('c_fecha', 'Fecha') + '</div>' +
+    '<div>' + v('c_dest', 'Destinatario') + '</div><div>' + v('c_saludo', 'Saludo') + '</div><div>' + v('c_cuerpo', 'Cuerpo de la carta') + '</div>' +
+    '<div style="display:flex; flex-direction:column; gap:2px">' + v('c_desp', 'Despedida') +
+    (firma ? '<span class="part sig">' + esc(firma) + '</span>' : '<span class="part ph">Firma</span>') + v('c_nombre', 'Tu nombre') + '</div>';
+  var ch = revisarCarta(c), ic = {ok:'✓', bad:'!', pend:'○'};
+  $('#letterChecks').innerHTML = ch.map(function (x) { return '<li class="' + x.e + '"><span class="ic">' + ic[x.e] + '</span><span>' + esc(x.t) + '</span></li>'; }).join('');
+}
+$('#letterForm').addEventListener('input', function () { prog.carta = leerCampos(); guardar(); pintarCarta(); });
+$('#letterExample').addEventListener('click', function () {
+  var ej = {n_neg:'Café Aurora', n_dir:'48 Main Street, Springfield', n_por:'friendly waiters, delicious food, quiet place to study',
+    c_tudir:'125 Oak Avenue\nSpringfield\ne-mail: student@example.com', c_fecha:'November 18, 2026',
+    c_dest:'Manager\nCafé Aurora\n48 Main Street\nSpringfield', c_saludo:'Dear Sir or Madam:',
+    c_cuerpo:'I\'m writing to tell you that I was very happy with the service at Café Aurora last Saturday. The waiters were friendly and the food was delicious. There weren\'t too many people, so it was a quiet place to study, and there was enough space for my books.\n\nI am recommending your café to all my classmates. Congratulations on such a wonderful place.',
+    c_desp:'Sincerely,', c_nombre:'Alex Rivera'};
+  CAMPOS.forEach(function (id) { $('#' + id).value = ej[id]; });
+  prog.carta = leerCampos(); guardar(); pintarCarta();
+});
+$('#letterClear').addEventListener('click', function () {
+  $('#letterClearConfirm').innerHTML = '<div class="confirm">¿Borrar todo lo que escribiste? <button class="btn" type="button" id="lcYes">Sí, borrar</button><button class="btn ghost" type="button" id="lcNo">Cancelar</button></div>';
+  $('#lcYes').addEventListener('click', function () { CAMPOS.forEach(function (id) { $('#' + id).value = ''; }); prog.carta = {}; guardar(); pintarCarta(); $('#letterClearConfirm').innerHTML = ''; });
+  $('#lcNo').addEventListener('click', function () { $('#letterClearConfirm').innerHTML = ''; });
+});
+
+/* Corrección con Claude (opcional) */
+var sampleFn = null, aiCtl = null;
+function iniciarClaude() {
+  if (!window.claude || typeof window.claude.use !== 'function') return;
+  window.claude.use('sample').then(function (s) { if (s) { sampleFn = s; $('#aiZone').hidden = false; } }).catch(function () {});
+}
+$('#aiBtn').addEventListener('click', function () {
+  if (!sampleFn) return;
+  var c = leerCampos();
+  var carta = [c.c_tudir, c.c_fecha, '', c.c_dest, '', c.c_saludo, '', c.c_cuerpo, '', c.c_desp, c.c_nombre].join('\n').trim();
+  var out = $('#aiOut');
+  if (!c.c_cuerpo.trim()) { out.hidden = false; out.textContent = 'Escribe primero el cuerpo de la carta.'; return; }
+  if (aiCtl) aiCtl.abort();
+  aiCtl = new AbortController();
+  out.hidden = false; out.textContent = 'Leyendo tu carta…';
+  $('#aiBtn').disabled = true;
+  var prompt = 'Eres profesor de inglés de un estudiante hispanohablante de nivel intermedio. El estudiante escribió una carta formal de agradecimiento al gerente de un negocio (ejercicio de la Unidad 5 de su libro). ' +
+    'Convenciones del libro: tu dirección arriba a la derecha, fecha debajo (December 14, 2016), dirección del destinatario, saludo formal con dos puntos (Dear Mr. Smith: o Dear Sir or Madam:), cuerpo, despedida con coma (Sincerely, Sincerely yours, Cordially, Best regards,), firma y nombre escrito. ' +
+    'Responde en español, en texto plano sin markdown ni asteriscos, con estas tres partes cortas:\n1. Formato: qué está bien y qué falta según las convenciones.\n2. Errores: cada error de gramática, vocabulario u ortografía en una línea con la frase original y la corrección. Presta atención a some/any, too many/too much/enough, fewer/less y something/anything/nothing.\n3. Una sugerencia para que suene más formal o natural.\nSé amable y breve (máximo 180 palabras).\n\nCarta:\n"""\n' + carta + '\n"""';
+  sampleFn(prompt, {signal:aiCtl.signal, cache:false, onText:function (e) { out.textContent = e.text; }}).then(function (r) {
+    out.textContent = r.text;
+  }).catch(function (err) {
+    if (err && err.code === 'not_granted') { $('#aiZone').hidden = true; return; }
+    if (err && err.name === 'AbortError') return;
+    out.textContent = err && err.code === 'rate_limited' ? 'Claude está ocupado. Intenta de nuevo en un minuto.' : 'No se pudo obtener la corrección. Intenta de nuevo más tarde.';
+  }).then(function () { $('#aiBtn').disabled = false; });
+});
+
+/* ================= Progreso ================= */
+function pintarProgreso() {
+  var t = totales(), pct = t.i ? Math.round(100 * t.a / t.i) : 0;
+  var lh = 0, lb = 0, lt = 0;
+  LIBRO.forEach(function (s) { var st = libroStats(s); lh += st.hechos; lb += st.bien; lt += st.total; });
+  var sabidas = FLASH.filter(function (c) { return prog.flash[c.id] === 'se'; }).length;
+  $('#stats').innerHTML = [
+    ['Aciertos en práctica', t.a + '/' + t.i, pct + '% de acierto'],
+    ['Racha actual', prog.racha || 0, 'mejor racha: ' + (prog.mejorRacha || 0)],
+    ['Ejercicios del libro', lh + '/' + lt, lb + ' correctos al primer intento'],
+    ['Tarjetas que ya sabes', sabidas + '/' + FLASH.length, 'en la pestaña Gramática']
+  ].map(function (s) { return '<div class="panel stat"><span class="eyebrow">' + s[0] + '</span><span class="n">' + s[1] + '</span><span class="small muted">' + s[2] + '</span></div>'; }).join('');
+  $('#progTable').innerHTML = '<tr><th>Práctica</th><th>Aciertos</th><th>%</th><th></th></tr>' + GENERADORES.map(function (g) {
+    var s = prog.practica[g.id] || {i:0, a:0}, p = s.i ? Math.round(100 * s.a / s.i) : 0;
+    return '<tr><td>' + esc(g.nombre) + '</td><td class="num">' + s.a + '/' + s.i + '</td><td class="num">' + (s.i ? p + '%' : '—') + '</td><td><div class="bar"><i style="width:' + p + '%"></i></div></td></tr>';
+  }).join('');
+  $('#bookTable').innerHTML = '<tr><th>Ejercicio del libro</th><th>Hechas</th><th>Correctas</th><th></th></tr>' + LIBRO.map(function (s) {
+    var st = libroStats(s), p = Math.round(100 * st.bien / st.total);
+    return '<tr><td>' + esc(s.titulo) + '</td><td class="num">' + st.hechos + '/' + st.total + '</td><td class="num">' + st.bien + '</td><td><div class="bar"><i style="width:' + p + '%"></i></div></td></tr>';
+  }).join('');
+  $('#resetZone').innerHTML = '<button class="btn ghost" type="button" id="resetBtn">Borrar mi progreso</button>';
+  $('#resetBtn').addEventListener('click', function () {
+    $('#resetZone').innerHTML = '<div class="confirm">Se borran aciertos, ejercicios del libro y tarjetas. Tu carta se conserva. <button class="btn" type="button" id="rsYes">Sí, borrar</button><button class="btn ghost" type="button" id="rsNo">Cancelar</button></div>';
+    $('#rsYes').addEventListener('click', function () { var carta = prog.carta; prog = progVacio(); prog.carta = carta; guardar(); pintarTodo(); pintarProgreso(); });
+    $('#rsNo').addEventListener('click', pintarProgreso);
+  });
+  pintarEstadoGuardado();
+}
+
+function pintarTodo() {
+  pintarChip(); pintarGram(); pintarFlash(); pintarLibro(); pintarModelo(); cargarCampos();
+  if (pr.problem) pintarTipos();
+  if ((location.hash || '') === '#progreso') pintarProgreso();
+}
+pintarTodo();
+iniciarOrden();
+mostrarVista();
+iniciarCuenta();
+iniciarClaude();
+})();
+</script>
+
+</body></html>
