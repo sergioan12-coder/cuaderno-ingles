@@ -134,6 +134,8 @@ section.view{display:flex; flex-direction:column; gap:20px}
 .choice.right{border-color:var(--ok); background:var(--ok-bg)}
 .choice.wrong{border-color:var(--bad); background:var(--bad-bg)}
 .choice:disabled{cursor:default}
+.choice.picked{border-color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink)}
+.reading{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:16px 20px; font-family:var(--font-en); font-size:1.04rem; line-height:1.6; display:flex; flex-direction:column; gap:10px; max-width:75ch}
 .typed{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
 .field{width:100%; min-width:0; border:1px solid var(--line); background:var(--surface-2); border-radius:7px; padding:8px 10px; font-size:.95rem}
 .field:focus{outline:2px solid var(--ccol); outline-offset:0; background:var(--surface)}
@@ -234,12 +236,12 @@ input.field.en-in{font-family:var(--font-en); font-size:1rem}
 <header class="top">
   <div class="wrap">
     <div class="top-row">
-      <div class="brand"><h1>Cuaderno de Inglés</h1><span class="tag">Unit 5 · Grammar booster y cartas formales</span></div>
+      <div class="brand"><h1>Cuaderno de Inglés</h1><span class="tag">Unit 5 · Grammar booster, guía de estudio y cartas formales</span></div>
       <button class="chip-prog" id="chipProg" type="button" title="Ver progreso">Aciertos <b id="chipAciertos">0/0</b> · Racha <b id="chipRacha">0</b></button>
     </div>
     <nav class="tabs" aria-label="Secciones">
       <a href="#gramatica" data-view="gramatica">Gramática</a>
-      <a href="#libro" data-view="libro">Ejercicios del libro</a>
+      <a href="#libro" data-view="libro">Ejercicios</a>
       <a href="#practica" data-view="practica">Práctica</a>
       <a href="#carta" data-view="carta">Carta formal</a>
       <a href="#progreso" data-view="progreso">Mi progreso</a>
@@ -252,7 +254,7 @@ input.field.en-in{font-family:var(--font-en); font-size:1rem}
   <section class="view" id="view-gramatica" hidden>
     <div class="view-head">
       <h2>Gramática de la Unidad 5</h2>
-      <p class="muted">Las reglas del Grammar Booster explicadas en español, con los ejemplos del libro. Al final hay tarjetas de repaso.</p>
+      <p class="muted">Las reglas del Grammar Booster y de la guía de estudio explicadas en español, con ejemplos. Al final hay tarjetas de repaso.</p>
     </div>
     <div class="legend-row">
       <span><i style="background:var(--ccol)"></i>sustantivo contable</span>
@@ -290,8 +292,8 @@ input.field.en-in{font-family:var(--font-en); font-size:1rem}
   <!-- LIBRO -->
   <section class="view" id="view-libro" hidden>
     <div class="view-head">
-      <h2>Ejercicios del libro</h2>
-      <p class="muted">Los ejercicios A, B, C y D de la Lección 1 y el de pronombres de la Lección 2. Responde y la app te dice si está bien y por qué. Solo cuenta tu primer intento.</p>
+      <h2>Ejercicios del libro y de la guía</h2>
+      <p class="muted">Los ejercicios A, B, C y D de la Lección 1 y el de pronombres de la Lección 2 del libro, y la guía de estudio de la Unidad 5 (vocabulario, gramática, lectura y listening). Responde y la app te dice si está bien y por qué. Solo cuenta tu primer intento.</p>
     </div>
     <div class="book-list" id="bookList"></div>
   </section>
@@ -434,6 +436,12 @@ var TEMAS = [
   {id:'cantidad', nombre:'Too many, too much, enough'},
   {id:'fewerless', nombre:'Fewer y less'},
   {id:'pronombres', nombre:'Something, anything, everything, nothing'},
+  {id:'cuantificadores', nombre:'A lot of, many, much'},
+  {id:'personas', nombre:'Someone, anyone, no one'},
+  {id:'condicional', nombre:'Condicional irreal (If + pasado)'},
+  {id:'posesivos', nombre:'Pronombres posesivos'},
+  {id:'vocabulario', nombre:'Vocabulario: apariencia y belleza'},
+  {id:'guia', nombre:'Guía de estudio · Unit 5'},
   {id:'carta', nombre:'Carta formal'}
 ];
 
@@ -471,6 +479,52 @@ var GRAM = {
     {t:'Preguntas de sí o no', w:'Sirven something, anything o everything.', ej:['Is there ' + K('something') + ' we should talk about?', 'Is ' + K('anything') + ' wrong?', 'Do you have ' + K('everything') + ' you need?']},
     {t:'Nothing = not anything', w:'Nothing ya es negativo. No lo uses con un verbo negativo: en inglés no hay doble negación.',
      ej:['There isn\'t ' + K('anything') + ' in the fridge. = There\'s ' + K('nothing') + ' in the fridge.', '<span class="strike">There isn\'t nothing in the fridge.</span> <span class="gl">incorrecto</span>']}
+  ],
+  cuantificadores: [
+    {t:'A lot of / lots of en afirmativas', w:'Significan «mucho» o «muchos». Sirven con contables y con no contables, y son lo más natural en oraciones afirmativas.',
+     ej:['I have ' + K('a lot of') + ' ' + C('books') + '.', 'There are ' + K('lots of') + ' ' + C('people') + '.', 'We need ' + K('a lot of') + ' ' + N('rice') + '.', 'He has ' + K('lots of') + ' ' + N('patience') + '.', 'There are ' + K('a lot of') + ' ' + C('beauty products') + ' on sale today.']},
+    {t:'Many: contables, en negativas y preguntas', w:'Many va con sustantivos contables en plural.',
+     ej:['There aren\'t ' + K('many') + ' ' + C('students') + ' here.', 'Are there ' + K('many') + ' ' + C('chairs') + '?', 'How ' + K('many') + ' ' + C('razors') + ' do we need?']},
+    {t:'Much: no contables, en negativas y preguntas', w:'Much va con sustantivos no contables.',
+     ej:['There isn\'t ' + K('much') + ' ' + N('time') + ' left.', 'How ' + K('much') + ' ' + N('money') + ' do you need?', 'I don\'t have ' + K('much') + ' ' + N('shampoo') + '.']},
+    {t:'Cuidado con much y a lot', w:'En afirmativas, much suena raro: mejor a lot of. «A lot» sin «of» va solo al final de la oración, sin sustantivo después.',
+     ej:['<span class="strike">I have much money.</span> → I have ' + K('a lot of') + ' money.', '<span class="strike">I need a lot shampoo.</span> → I need ' + K('a lot of') + ' shampoo.', 'I like this salon ' + K('a lot') + '.']}
+  ],
+  personas: [
+    {t:'Someone = alguien', w:'En afirmativas, y en preguntas cuando esperas que la respuesta sea sí.',
+     ej:[K('Someone') + ' called me. <span class="gl">alguien me llamó</span>', 'Is ' + K('someone') + ' coming? <span class="gl">esperas que sí</span>']},
+    {t:'No one = nadie', w:'Con verbo afirmativo, porque no one ya es negativo. Expresa ausencia total de personas.',
+     ej:[K('No one') + ' came to the party.', 'I called the spa, but ' + K('no one') + ' answered the phone.', '<span class="strike">No one didn\'t come.</span> <span class="gl">doble negación</span>']},
+    {t:'Anyone = nadie / alguien / cualquiera', w:'En negativas (nadie), en preguntas generales (alguien) y en afirmativas con el sentido de «cualquier persona».',
+     ej:['I didn\'t see ' + K('anyone') + '. <span class="gl">no vi a nadie</span>', 'There isn\'t ' + K('anyone') + ' available for massages this afternoon.', 'Is ' + K('anyone') + ' here? <span class="gl">pregunta general</span>', K('Anyone') + ' can learn. <span class="gl">cualquiera</span>']},
+    {t:'Everyone = todos', w:'Everyone, someone, anyone y no one llevan el verbo en singular.',
+     ej:[K('Everyone') + ' is ready.', K('Everyone') + ' wants to look good.', K('Someone') + ' is using my hair dryer.']}
+  ],
+  condicional: [
+    {t:'If + pasado, would + verbo', w:'Para situaciones imaginarias o poco probables en el presente o el futuro. La parte con if va en pasado simple; la otra lleva would + verbo base.',
+     ej:['If I ' + K('had') + ' more money, I ' + K('would join') + ' a luxury fitness club.', 'If cosmetic procedures ' + K('were') + ' cheaper, more people ' + K('would try') + ' them.', 'If society ' + K('paid') + ' less attention to appearance, people ' + K('would feel') + ' less pressure.']},
+    {t:'Were con todas las personas', w:'En esta estructura se usa were también con I, he, she e it.',
+     ej:['If I ' + K('were') + ' you, I wouldn\'t buy that cream.', 'If my hair ' + K('were') + ' shorter, I would dry it faster.']},
+    {t:'Las dos partes pueden cambiar de orden', w:'Si empiezas con if, pon coma. Si empiezas con would, no hace falta.',
+     ej:['If people focused less on appearance, society ' + K('would become') + ' less judgmental.', 'Society would become less judgmental if people focused less on appearance.']},
+    {t:'Errores comunes', w:'Would no va en la parte del if, y el verbo de esa parte va en pasado.',
+     ej:['<span class="strike">If I would have more money…</span> → If I ' + K('had') + ' more money…', '<span class="strike">If I have more money, I would…</span> → If I ' + K('had') + ' more money, I would…']}
+  ],
+  posesivos: [
+    {t:'Adjetivo o pronombre posesivo', w:'El adjetivo posesivo va antes de un sustantivo (my comb). El pronombre posesivo lo reemplaza y va solo (the comb is mine).',
+     ej:['This is ' + K('my') + ' comb. → This comb is ' + K('mine') + '.', 'My sister bought a new hair dryer. The hair dryer is ' + K('hers') + '.', 'Those sunglasses aren\'t ' + K('mine') + '. They\'re ' + K('theirs') + '.']},
+    {t:'No confundas las formas', w:'Hers no es her ni she ni herself. Theirs no es their ni them ni themselves.',
+     ej:['<span class="strike">The hair dryer is her.</span> → The hair dryer is ' + K('hers') + '.', '<span class="strike">They\'re their.</span> → They\'re ' + K('theirs') + '.']}
+  ],
+  vocabulario: [
+    {t:'Productos (cosmetics store)', w:'Lo que se compra en una tienda de cosméticos o farmacia.',
+     ej:['sunscreen <span class="gl">protector solar</span>', 'hairspray <span class="gl">laca para el pelo</span>', 'mascara <span class="gl">rímel</span> · lipstick <span class="gl">labial</span>', 'razor <span class="gl">rasuradora</span> · aftershave <span class="gl">loción para después de afeitar</span>', 'comb / brush <span class="gl">peine / cepillo</span> · nail polish <span class="gl">esmalte</span>', 'toothpaste · dental floss <span class="gl">pasta e hilo dental</span>']},
+    {t:'Servicios (salon, spa)', w:'Lo que te hacen en un salón o spa.',
+     ej:['manicure / pedicure <span class="gl">uñas de manos / pies</span>', 'facial <span class="gl">tratamiento de la cara</span>', 'massage <span class="gl">relaja los músculos y reduce el estrés</span>', 'shave · haircut <span class="gl">afeitado · corte</span>']},
+    {t:'Apariencia y belleza interior', w:'Palabras de la lectura de la guía.',
+     ej:['appearance <span class="gl">apariencia</span> · physical attractiveness', 'inner beauty <span class="gl">belleza interior: kindness, patience, honesty</span>', 'cosmetic (plastic) surgery <span class="gl">cirugía estética</span>', 'pressure <span class="gl">presión, estrés</span> · self-image · confidence', 'unrealistic standards <span class="gl">estándares imposibles de alcanzar</span>']},
+    {t:'Adjetivos y expresiones', w:'Para describir personas.',
+     ej:['generous <span class="gl">generoso, trata bien a los demás</span>', 'shallow <span class="gl">superficial</span> · selfish <span class="gl">egoísta</span> · rude <span class="gl">grosero</span>', 'judgmental <span class="gl">que juzga a los demás</span>', 'I\'m out of shape. <span class="gl">no estoy en forma → necesito exercise</span>']}
   ]
 };
 
@@ -491,7 +545,17 @@ var FLASH = [
   {id:'f13', a:'Saludo formal si no sabes el nombre', b:'Dear Sir or Madam:<br>To whom it may concern:'},
   {id:'f14', a:'Saludo formal si sabes el nombre (Robert Smith)', b:'Dear Mr. Smith' + K(':')},
   {id:'f15', a:'Tres despedidas formales', b:'Sincerely, · Cordially, · Best regards,'},
-  {id:'f16', a:'Los elementos de una carta formal', b:'<span class="small">tu dirección · fecha · destinatario · saludo · cuerpo · despedida · firma · nombre escrito</span>'}
+  {id:'f16', a:'Los elementos de una carta formal', b:'<span class="small">tu dirección · fecha · destinatario · saludo · cuerpo · despedida · firma · nombre escrito</span>'},
+  {id:'f17', a:'There isn\'t ___ available for massages.', b:K('anyone') + '<br><span class="small muted">verbo negativo → anyone</span>'},
+  {id:'f18', a:'I called the spa, but ___ answered.', b:K('no one') + '<br><span class="small muted">verbo afirmativo con sentido de «nadie»</span>'},
+  {id:'f19', a:'If I ___ more money, I would join a gym.', b:K('had') + '<br><span class="small muted">If + pasado, would + verbo</span>'},
+  {id:'f20', a:'If cosmetic procedures ___ cheaper…', b:K('were') + '<br><span class="small muted">were con todas las personas</span>'},
+  {id:'f21', a:'My sister\'s hair dryer: The hair dryer is ___.', b:K('hers')},
+  {id:'f22', a:'How ___ money do you need?', b:K('much') + '<br><span class="small muted">money es no contable</span>'},
+  {id:'f23', a:'A lot of va con…', b:'contables y no contables<br><span class="small muted">a lot of books · a lot of rice</span>'},
+  {id:'f24', a:'I\'m out of shape. ¿Qué necesito?', b:'exercise<br><span class="small muted">no estás en forma</span>'},
+  {id:'f25', a:'shallow', b:'superficial<br><span class="small muted">solo le importa la apariencia</span>'},
+  {id:'f26', a:'Ejemplos de inner beauty', b:'kindness, patience, honesty'}
 ];
 
 /* ---------- Ejercicios del libro ---------- */
@@ -541,6 +605,57 @@ var LIBRO = [
     {s:'They have ___ that helps you lose weight.', ops:['something', 'anything'], a:'something', e:'Afirmativa → something.'},
     {s:'There\'s ___ that can make you look young again.', ops:['anything', 'nothing'], a:'nothing', e:'There\'s es afirmativo; para decir «nada» usa nothing (anything va con verbos negativos).'},
     {s:'They can\'t get ___ to eat there after ten o\'clock.', ops:['anything', 'nothing'], a:'anything', e:'Ya hay un negativo (can\'t) → anything. Con nothing sería doble negación.'}
+  ]},
+  {id:'V', tema:'guia', titulo:'Guía · Vocabulario (1-10)', instr:'Choose the correct answer.', tipo:'opciones', items:[
+    {s:'Which product is normally used to protect your skin from the sun?', ops:['hairspray', 'sunscreen', 'toothpaste', 'mascara'], a:'sunscreen', e:'Sunscreen = protector solar.'},
+    {s:'Which service would most likely include relaxing muscles and reducing stress?', ops:['manicure', 'facial', 'massage', 'shave'], a:'massage', e:'Un massage relaja los músculos. Manicure es de uñas, facial de la cara y shave es afeitado.'},
+    {s:'Which sentence uses the vocabulary correctly?', ops:['I need a razor to brush my hair.', 'She bought sunscreen to protect her skin at the beach.', 'He used lipstick to shave his beard.', 'I cleaned my teeth with nail polish.'], a:'She bought sunscreen to protect her skin at the beach.', e:'El protector solar protege la piel. Las demás mezclan productos: el pelo se cepilla con un brush y la barba se afeita con un razor.'},
+    {s:'Which product is a non-count noun?', ops:['comb', 'toothbrush', 'shampoo', 'razor'], a:'shampoo', e:'Shampoo no tiene plural en este sentido. Comb, toothbrush y razor se cuentan (two combs).'},
+    {s:'A person who is concerned about physical attractiveness is usually interested in:', ops:['appearance', 'honesty', 'homework', 'transportation'], a:'appearance', e:'Physical attractiveness = qué tan atractivo se ve alguien → appearance (apariencia).'},
+    {s:'Which adjective best describes a person who treats others kindly and respectfully?', ops:['shallow', 'generous', 'selfish', 'rude'], a:'generous', e:'Generous es la única cualidad positiva. Shallow = superficial, selfish = egoísta, rude = grosero.'},
+    {s:'Which expression refers to inner beauty rather than physical appearance?', ops:['stylish clothes', 'attractive hairstyle', 'kindness and patience', 'expensive makeup'], a:'kindness and patience', e:'La belleza interior son cualidades de la persona, no cosas que se ven.'},
+    {s:'If someone says, "I\'m out of shape," they probably need:', ops:['a manicure', 'exercise', 'sunscreen', 'makeup'], a:'exercise', e:'Out of shape = no estar en forma físicamente.'},
+    {s:'Which item would you most likely buy at a cosmetics store?', ops:['dental floss', 'aftershave', 'shampoo', 'all of the above'], a:'all of the above', e:'Los tres son productos de cuidado personal que se venden en una tienda de cosméticos.'},
+    {s:'Which statement reflects a balanced opinion about beauty?', ops:['Physical beauty is the only thing that matters.', 'Attractive people are always happier.', 'Inner beauty can be as important as outer beauty.', 'Cosmetic surgery always improves people\'s lives.'], a:'Inner beauty can be as important as outer beauty.', e:'Una opinión equilibrada no usa extremos como only, always o never.'}
+  ]},
+  {id:'G', tema:'guia', titulo:'Guía · Gramática (11-20)', instr:'Read and choose the correct option.', tipo:'opciones', items:[
+    {s:'There isn\'t ___ available for massages this afternoon.', ops:['someone', 'anyone', 'no one', 'everyone'], a:'anyone', e:'El verbo es negativo (isn\'t) → anyone. No one daría doble negación.'},
+    {s:'I need to buy ___ shampoo before my trip.', ops:['many', 'much', 'a lot', 'a few'], a:'much', e:'Shampoo es no contable, así que de estas opciones va much (many y a few son para contables, y «a lot» necesita «of» antes de un sustantivo). Ojo: en inglés natural se diría «some shampoo» o «a lot of shampoo», porque much suena raro en afirmativas. Confírmalo con tu profesor.'},
+    {s:'Would you like ___ advice about improving your appearance?', ops:['some', 'any', 'many', 'a few'], a:'some', e:'Es un ofrecimiento (Would you like…?), y en los ofrecimientos se usa some. Advice es no contable, así que many y a few no sirven.'},
+    {s:'I called the spa, but ___ answered the phone.', ops:['someone', 'anyone', 'no one', 'everyone'], a:'no one', e:'El verbo answered es afirmativo y el sentido es «nadie» → no one.'},
+    {s:'There are ___ beauty products on sale today.', ops:['much', 'a little', 'a lot of', 'any'], a:'a lot of', e:'Afirmativa con contable en plural → a lot of. Much y a little son para no contables; any va en negativas y preguntas.'},
+    {s:'If I ___ more money, I would probably join a luxury fitness club.', ops:['have', 'had', 'would have', 'will have'], a:'had', e:'Condicional irreal: if + pasado (had), would + verbo.'},
+    {s:'If cosmetic procedures ___ cheaper, more people would try them.', ops:['are', 'were', 'had been', 'would be'], a:'were', e:'If + pasado → were. Would no va en la parte del if.'},
+    {s:'My sister bought a new hair dryer. The hair dryer is ___.', ops:['her', 'hers', 'she', 'herself'], a:'hers', e:'Va solo, sin sustantivo después → pronombre posesivo hers.'},
+    {s:'Those sunglasses aren\'t mine. They\'re ___.', ops:['theirs', 'their', 'them', 'themselves'], a:'theirs', e:'Va solo, sin sustantivo después → pronombre posesivo theirs.'},
+    {s:'If people focused less on appearance, society ___ less judgmental.', ops:['becomes', 'became', 'would become', 'becoming'], a:'would become', e:'La parte con if está en pasado (focused), así que la otra lleva would + verbo.'}
+  ]},
+  {id:'R', tema:'guia', titulo:'Guía · Lectura (21-30)', instr:'Read the text and answer the questions.', tipo:'opciones',
+   texto:'<h3 class="en" style="font-family:var(--font-en)">The Pressure to Look Perfect</h3>' +
+    '<p>Today, many people spend a lot of time and money trying to improve their appearance. Social media has increased the pressure to look attractive, and some individuals even consider cosmetic surgery to feel more confident. However, experts believe that physical appearance should not be the only factor that defines beauty.</p>' +
+    '<p>Dr. Weiss, a specialist interviewed in a health magazine, explains that cosmetic procedures can sometimes help people feel better about themselves, especially if they are extremely unhappy with a physical feature. Nevertheless, he also warns that surgery is not always the solution to emotional problems.</p>' +
+    '<p>Many young adults buy expensive beauty products because they believe appearance determines success. Others spend hours at salons, fitness centers, or spas trying to achieve unrealistic standards. If society paid less attention to physical appearance, people would probably feel less pressure and anxiety.</p>' +
+    '<p>In addition, inner beauty qualities such as kindness, patience, and honesty continue to be highly valued in personal relationships. According to Dr. Weiss, confidence and emotional well-being are often more attractive than perfect physical features.</p>',
+   items:[
+    {s:'What is the main purpose of the article?', ops:['To advertise cosmetic surgery', 'To criticize salons and spas', 'To discuss beauty standards and appearance', 'To explain how to apply makeup'], a:'To discuss beauty standards and appearance', e:'Todo el texto habla de la presión por verse bien y de qué es la belleza.'},
+    {s:'According to the article, social media has:', ops:['reduced interest in appearance', 'increased pressure to look attractive', 'improved emotional health', 'eliminated unrealistic standards'], a:'increased pressure to look attractive', e:'Párrafo 1: «Social media has increased the pressure to look attractive».'},
+    {s:'Dr. Weiss believes cosmetic surgery:', ops:['always improves people\'s confidence', 'should never be performed', 'can help in certain situations', 'is only popular among celebrities'], a:'can help in certain situations', e:'Párrafo 2: «can sometimes help… especially if they are extremely unhappy».'},
+    {s:'What does the word "pressure" most closely mean in the text?', ops:['relaxation', 'responsibility', 'stress', 'freedom'], a:'stress', e:'En el párrafo 3 aparece junto a «anxiety»: es una sensación de estrés.'},
+    {s:'Which statement is TRUE according to the reading?', ops:['Appearance is more important than personality.', 'Everyone should have cosmetic surgery.', 'Emotional well-being is also attractive.', 'Salons are harmful for young adults.'], a:'Emotional well-being is also attractive.', e:'Párrafo 4: «confidence and emotional well-being are often more attractive».'},
+    {s:'If society cared less about appearance, people would probably:', ops:['spend more money on products', 'feel less anxious', 'stop exercising completely', 'avoid social media entirely'], a:'feel less anxious', e:'Párrafo 3: «people would probably feel less pressure and anxiety».'},
+    {s:'The word "they" in paragraph 2 refers to:', ops:['magazines', 'emotional problems', 'cosmetic procedures', 'people'], a:'people', e:'«…help people feel better about themselves, especially if they are extremely unhappy»: they = people.'},
+    {s:'Which quality is considered part of inner beauty?', ops:['fashionable clothes', 'patience', 'makeup', 'hairstyles'], a:'patience', e:'Párrafo 4: «kindness, patience, and honesty».'},
+    {s:'The author suggests that many beauty standards are:', ops:['realistic', 'impossible to achieve', 'healthy for everyone', 'inexpensive'], a:'impossible to achieve', e:'Párrafo 3: «unrealistic standards», es decir, imposibles de alcanzar.'},
+    {s:'What would be the best title for the article?', ops:['The Dangers of Fitness Centers', 'Beauty Beyond Physical Appearance', 'Why Makeup Is Necessary', 'Famous Cosmetic Procedures'], a:'Beauty Beyond Physical Appearance', e:'El texto concluye que la belleza va más allá de lo físico.'}
+  ]},
+  {id:'L', tema:'guia', titulo:'Guía · Listening (1-6)', instr:'Escucha el audio del código QR de la guía y responde. Este ejercicio no tiene clave en la guía: tu respuesta se guarda, pero no se corrige.', tipo:'opciones', sinClave:true,
+   link:'https://qr.link/Uz0q1m', items:[
+    {s:'Why did George become more concerned about his appearance after high school?', ops:['He wanted to impress his teachers.', 'He became more aware of his image in college.', 'He started working in the fashion industry.']},
+    {s:'What does Aiste suggest about her attitude toward appearance?', ops:['She believes appearance is the most important thing in society.', 'She avoids thinking about appearance because it makes her anxious.', 'She considers appearance less important due to her busy lifestyle.']},
+    {s:'According to Enam, how can appearance affect people?', ops:['It may influence their confidence and social interactions.', 'It determines whether people become successful.', 'It only matters during formal occasions.']},
+    {s:'What can be inferred about Chrystal\'s experience at school?', ops:['She changed schools because of bullying.', 'Negative comments once affected her self-image.', 'She stopped wearing glasses after high school.']},
+    {s:'Why does MJ hesitate to have plastic surgery?', ops:['His family disagrees with the idea.', 'He cannot afford the procedure.', 'He feels nervous about the risks involved.']},
+    {s:'What is Hanna\'s main point about appearance in modern society?', ops:['People are completely judged only by their physical appearance.', 'Society often pressures people to care about how they look.', 'Physical appearance is more important than personality.']}
   ]}
 ];
 
@@ -577,6 +692,11 @@ var GENERADORES = [
   {id:'cantidad', tema:'cantidad', nombre:'Too many, too much, enough', gen:genCantidad},
   {id:'fewerless', tema:'fewerless', nombre:'Fewer o less', gen:genFewerLess},
   {id:'pronombres', tema:'pronombres', nombre:'Pronombres indefinidos', gen:genPronombres},
+  {id:'muchmany', tema:'cuantificadores', nombre:'A lot of, many o much', gen:function () { return genMuchMany(); }},
+  {id:'personas', tema:'personas', nombre:'Someone, anyone, no one, everyone', gen:function () { return genBanco(PERSONAS, 'Elige la palabra correcta.'); }},
+  {id:'condicional', tema:'condicional', nombre:'If + pasado, would + verbo', gen:function () { return genBanco(CONDICIONAL, 'Completa la oración imaginaria.'); }},
+  {id:'posesivos', tema:'posesivos', nombre:'Mine, yours, his, hers…', gen:function () { return genPosesivos(); }},
+  {id:'vocab', tema:'vocabulario', nombre:'Vocabulario de la guía', gen:function () { return genBanco(VOCAB, 'Elige la palabra correcta.'); }},
   {id:'carta', tema:'carta', nombre:'Convenciones de la carta formal', gen:genCarta}
 ];
 
@@ -771,6 +891,88 @@ function revisarCarta(c) {
   return out;
 }
 
+/* ---------- Guía de estudio: bancos y generadores ---------- */
+function genBanco(banco, enunciado) {
+  var x = pick(banco);
+  return {enunciado:enunciado, frase:x.s.indexOf('___') >= 0 ? x.s.replace('___', BL) : x.s, opciones:shuffle(x.o), correcta:x.a, exp:x.e, en:true};
+}
+var PERSONAS = [
+  {s:'There isn\'t ___ available for massages this afternoon.', o:['anyone', 'no one'], a:'anyone', e:'Verbo negativo (isn\'t) → anyone. Con no one sería doble negación.'},
+  {s:'___ called me last night, but I don\'t know who.', o:['Someone', 'Anyone'], a:'Someone', e:'Afirmativa → someone (alguien).'},
+  {s:'I called the salon, but ___ answered.', o:['no one', 'anyone'], a:'no one', e:'Answered es afirmativo; para decir «nadie» usa no one.'},
+  {s:'Did you see ___ at the gym?', o:['anyone', 'no one'], a:'anyone', e:'Pregunta general → anyone.'},
+  {s:'___ came to the party. It was empty.', o:['No one', 'Anyone'], a:'No one', e:'Came es afirmativo y la fiesta estaba vacía → no one.'},
+  {s:'I didn\'t talk to ___ at the spa.', o:['anyone', 'no one'], a:'anyone', e:'Verbo negativo (didn\'t) → anyone.'},
+  {s:'___ can learn English with practice.', o:['Anyone', 'No one'], a:'Anyone', e:'Afirmativa con el sentido de «cualquier persona» → anyone.'},
+  {s:'___ in my class is ready for the test. We all studied.', o:['Everyone', 'Anyone'], a:'Everyone', e:'We all = todos → everyone.'},
+  {s:'There\'s ___ at the door. Can you open it?', o:['someone', 'anyone'], a:'someone', e:'Afirmativa (there\'s) → someone.'},
+  {s:'We don\'t know ___ in this city.', o:['anyone', 'no one'], a:'anyone', e:'Verbo negativo (don\'t know) → anyone.'},
+  {s:'___ likes waiting in long lines.', o:['No one', 'Anyone'], a:'No one', e:'Likes es afirmativo; «a nadie le gusta» → no one.'},
+  {s:'Is there ___ who can help me with my hair?', o:['anyone', 'no one'], a:'anyone', e:'Pregunta general → anyone.'},
+  {s:'___ wants to look good, but appearance isn\'t everything.', o:['Everyone', 'No one'], a:'Everyone', e:'«Todos quieren verse bien» → everyone, con verbo en singular (wants).'},
+  {s:'I think ___ is using my hair dryer. It isn\'t in its place.', o:['someone', 'anyone'], a:'someone', e:'Afirmativa → someone.'}
+];
+var CONDICIONAL = [
+  {s:'If I ___ more money, I would buy a new car.', o:['had', 'have', 'would have'], a:'had', e:'If + pasado → had.'},
+  {s:'If she ___ taller, she would be a model.', o:['were', 'is', 'will be'], a:'were', e:'If + pasado; con be se usa were en todas las personas.'},
+  {s:'If people focused less on appearance, they ___ happier.', o:['would be', 'will be', 'are'], a:'would be', e:'La parte sin if lleva would + verbo.'},
+  {s:'If cosmetic surgery ___ cheaper, more people would try it.', o:['were', 'are', 'would be'], a:'were', e:'If + pasado → were. Would no va en la parte del if.'},
+  {s:'If I were you, I ___ that expensive cream.', o:['wouldn\'t buy', 'won\'t buy', 'don\'t buy'], a:'wouldn\'t buy', e:'Consejo con If I were you → would / wouldn\'t + verbo.'},
+  {s:'If he ___ more, he wouldn\'t be out of shape.', o:['exercised', 'exercises', 'would exercise'], a:'exercised', e:'If + pasado → exercised.'},
+  {s:'We ___ to the spa more often if it were closer.', o:['would go', 'will go', 'go'], a:'would go', e:'La otra parte está en pasado (were), así que aquí va would + verbo.'},
+  {s:'If they ___ time, they would get a manicure.', o:['had', 'have', 'will have'], a:'had', e:'If + pasado → had.'},
+  {s:'If society paid less attention to appearance, people ___ less pressure.', o:['would feel', 'feel', 'will feel'], a:'would feel', e:'Would + verbo base.'},
+  {s:'If you ___ sunscreen every day, your skin would be healthier.', o:['used', 'use', 'would use'], a:'used', e:'If + pasado → used.'},
+  {s:'What ___ you do if you won the lottery?', o:['would', 'will', 'did'], a:'would', e:'Pregunta imaginaria: What would you do if…?'},
+  {s:'If my hair ___ shorter, I would dry it faster.', o:['were', 'is', 'will be'], a:'were', e:'If + pasado; con be se usa were.'}
+];
+var POS = {
+  mine:{o:['mine', 'my', 'me', 'myself'], quien:['me']},
+  yours:{o:['yours', 'your', 'you', 'yourself'], quien:['you']},
+  his:{o:['his', 'him', 'he', 'himself'], quien:['my brother', 'Carlos', 'him']},
+  hers:{o:['hers', 'her', 'she', 'herself'], quien:['my sister', 'Ana', 'her']},
+  ours:{o:['ours', 'our', 'us', 'ourselves'], quien:['us', 'my husband and me']},
+  theirs:{o:['theirs', 'their', 'them', 'themselves'], quien:['my parents', 'them', 'the twins']}
+};
+var ADJ = {mine:'my', yours:'your', his:'his', hers:'her', ours:'our', theirs:'their'};
+function genPosesivos() {
+  var k = pick(Object.keys(POS)), p = POS[k], q = pick(p.quien);
+  var cosa = pick([{n:'hair dryer', pl:0}, {n:'comb', pl:0}, {n:'toothbrush', pl:0}, {n:'lipstick', pl:0}, {n:'sunglasses', pl:1}, {n:'towels', pl:1}]);
+  var s = cosa.pl ? 'These ' + cosa.n + ' belong to ' + q + '. They\'re ___.' : 'This ' + cosa.n + ' belongs to ' + q + '. It\'s ___.';
+  return {enunciado:'Completa con el pronombre posesivo.', frase:s.replace('___', BL), opciones:shuffle(p.o), correcta:k,
+    exp:'Va solo, sin sustantivo después, así que es el pronombre posesivo: ' + k + '. Con sustantivo dirías ' + ADJ[k] + ' ' + cosa.n + '.', en:true};
+}
+function genMuchMany() {
+  var x = pick(NOUNS), kind = pick(['aff', 'neg', 'q']), s, o, a, e;
+  if (kind === 'aff') {
+    s = 'We have ___ ' + x.n + '.'; o = ['a lot of', 'much']; a = 'a lot of';
+    e = 'Afirmativa → a lot of, que sirve con contables y no contables.' + (x.c ? ' Much nunca va con contables.' : ' Much en afirmativas suena raro.');
+  } else if (kind === 'neg') {
+    s = (x.c ? 'There aren\'t ___ ' : 'There isn\'t ___ ') + x.n + ' left.'; o = ['many', 'much']; a = x.c ? 'many' : 'much';
+    e = '«' + x.n + '» es ' + (x.c ? 'contable → many.' : 'no contable → much.');
+  } else {
+    s = 'How ___ ' + x.n + (x.c ? ' are there?' : ' is there?'); o = ['many', 'much']; a = x.c ? 'many' : 'much';
+    e = '«' + x.n + '» es ' + (x.c ? 'contable → How many.' : 'no contable → How much.');
+  }
+  return {enunciado:'Completa la oración. <span class="small muted">(' + x.es + ')</span>', frase:s.replace('___', BL), opciones:o, correcta:a, exp:e, en:true};
+}
+var VOCAB = [
+  {s:'You put ___ on your skin to protect it from the sun.', o:['sunscreen', 'hairspray', 'mascara', 'toothpaste'], a:'sunscreen', e:'Sunscreen = protector solar.'},
+  {s:'A ___ relaxes your muscles and reduces stress.', o:['massage', 'manicure', 'facial', 'shave'], a:'massage', e:'Massage = masaje.'},
+  {s:'At the salon, she got a ___. Now her fingernails look great.', o:['manicure', 'pedicure', 'facial', 'massage'], a:'manicure', e:'Manicure = uñas de las manos (fingernails). Pedicure es de los pies.'},
+  {s:'He uses a ___ to shave every morning.', o:['razor', 'comb', 'nail file', 'lipstick'], a:'razor', e:'Razor = rasuradora.'},
+  {s:'Use ___ to clean between your teeth.', o:['dental floss', 'hand lotion', 'aftershave', 'nail polish'], a:'dental floss', e:'Dental floss = hilo dental.'},
+  {s:'She puts ___ on her eyelashes.', o:['mascara', 'lipstick', 'shampoo', 'deodorant'], a:'mascara', e:'Mascara = rímel, para las pestañas (eyelashes).'},
+  {s:'A person who gives and shares with others is ___.', o:['generous', 'selfish', 'shallow', 'rude'], a:'generous', e:'Generous = generoso.'},
+  {s:'A person who only cares about appearance is ___.', o:['shallow', 'generous', 'patient', 'honest'], a:'shallow', e:'Shallow = superficial.'},
+  {s:'Kindness, patience and honesty are examples of ___.', o:['inner beauty', 'makeup', 'fashion', 'physical features'], a:'inner beauty', e:'Inner beauty = belleza interior.'},
+  {s:'I\'m out of shape. I need more ___.', o:['exercise', 'makeup', 'sunscreen', 'shampoo'], a:'exercise', e:'Out of shape = no estar en forma física.'},
+  {s:'Some people have ___ surgery to change their nose.', o:['cosmetic', 'dental', 'shallow', 'generous'], a:'cosmetic', e:'Cosmetic (o plastic) surgery = cirugía estética.'},
+  {s:'Social media increases the ___ to look perfect.', o:['pressure', 'freedom', 'relaxation', 'patience'], a:'pressure', e:'Pressure = presión, estrés.'},
+  {s:'People who criticize others for how they look are ___.', o:['judgmental', 'generous', 'patient', 'confident'], a:'judgmental', e:'Judgmental = que juzga a los demás.'},
+  {s:'She uses ___ to keep her hairstyle in place all day.', o:['hairspray', 'toothpaste', 'dental floss', 'aftershave'], a:'hairspray', e:'Hairspray = laca para el pelo.'}
+];
+
 if (typeof module !== 'undefined') module.exports = {normalizar:normalizar, corregirTexto:corregirTexto, GENERADORES:GENERADORES, LIBRO:LIBRO, revisarCarta:revisarCarta, MODELO:MODELO};
 </script>
 <script>
@@ -924,6 +1126,7 @@ $$('#flashDeck button').forEach(function (b) {
 function libroStats(sec) {
   var hechos = 0, bien = 0;
   sec.items.forEach(function (it, i) { var r = prog.libro[sec.id + i]; if (r != null) { hechos++; if (r.ok) bien++; } });
+  if (sec.sinClave) bien = null;
   return {hechos:hechos, bien:bien, total:sec.items.length};
 }
 function frase(s, resp, ok) {
@@ -933,7 +1136,7 @@ function frase(s, resp, ok) {
 function pintarLibro() {
   $('#bookList').innerHTML = LIBRO.map(function (sec) {
     var st = libroStats(sec);
-    var badge = st.hechos === st.total ? '<span class="badge done">' + st.bien + '/' + st.total + ' correctas</span>' :
+    var badge = st.hechos === st.total ? '<span class="badge done">' + (sec.sinClave ? 'Respondido' : st.bien + '/' + st.total + ' correctas') + '</span>' :
       st.hechos ? '<span class="badge pend">' + st.hechos + ' de ' + st.total + ' hechas</span>' : '<span class="badge">Sin empezar</span>';
     var items = sec.items.map(function (it, i) {
       var id = sec.id + i, r = prog.libro[id], body = '';
@@ -950,16 +1153,20 @@ function pintarLibro() {
         var ops = it.ops || sec.ops;
         body = '<div class="sent">' + frase(it.s, r ? r.r : null, r ? r.ok : true) + '</div>';
         body += '<div class="choices">' + ops.map(function (o) {
-          var cls = r ? (o === it.a ? ' right' : (o === r.r ? ' wrong' : '')) : '';
+          var cls = !r ? '' : sec.sinClave ? (o === r.r ? ' picked' : '') : (o === it.a ? ' right' : (o === r.r ? ' wrong' : ''));
           return '<button class="choice' + cls + '" type="button" data-id="' + id + '" data-o="' + esc(o) + '"' + (r ? ' disabled' : '') + '>' + esc(o) + '</button>';
         }).join('') + '</div>';
-        if (r) body += '<div class="explain ' + (r.ok ? 'ok' : 'bad') + '"><b class="t">' + (r.ok ? 'Correcto' : 'La respuesta es ' + esc(it.a)) + '</b>' + esc(it.e) + '</div>';
+        if (r && sec.sinClave) body += '<div class="explain" style="background:var(--surface-2)">Respuesta guardada. Compruébala con el audio.</div>';
+        else if (r) body += '<div class="explain ' + (r.ok ? 'ok' : 'bad') + '"><b class="t">' + (r.ok ? 'Correcto' : 'La respuesta es ' + esc(it.a)) + '</b>' + esc(it.e) + '</div>';
       }
       return '<li class="item"><span class="num">' + (i + 1) + '</span><div class="body">' + body + '</div></li>';
     }).join('');
     return '<div class="panel book"><div class="book-head"><div class="meta"><span class="eyebrow">' + esc(temaNombre(sec.tema)) + '</span><h3>' + esc(sec.titulo) + '</h3>' +
       '<p class="muted small">' + esc(sec.instr) + '</p></div><div class="row">' + badge +
-      (st.hechos ? '<button class="btn ghost" type="button" data-reset="' + sec.id + '">Repetir</button>' : '') + '</div></div><ol class="items">' + items + '</ol></div>';
+      (st.hechos ? '<button class="btn ghost" type="button" data-reset="' + sec.id + '">Repetir</button>' : '') + '</div></div>' +
+      (sec.texto ? '<div class="reading">' + sec.texto + '</div>' : '') +
+      (sec.link ? '<p><a class="btn" href="' + esc(sec.link) + '" target="_blank" rel="noopener">Abrir el audio</a> <span class="small muted">el enlace del código QR de la guía</span></p>' : '') +
+      '<ol class="items">' + items + '</ol></div>';
   }).join('');
 }
 function libroItem(id) { var sec = LIBRO.filter(function (s) { return s.id === id[0]; })[0]; return {sec:sec, it:sec.items[+id.slice(1)]}; }
@@ -973,7 +1180,7 @@ $('#bookList').addEventListener('click', function (ev) {
   if (b.dataset.check) { comprobarLibro(b.dataset.check); return; }
   if (b.dataset.o != null && !b.disabled) {
     var x = libroItem(b.dataset.id);
-    prog.libro[b.dataset.id] = {r:b.dataset.o, ok:b.dataset.o === x.it.a};
+    prog.libro[b.dataset.id] = {r:b.dataset.o, ok:x.sec.sinClave ? null : b.dataset.o === x.it.a};
     guardar(); pintarLibro();
   }
 });
@@ -1168,12 +1375,12 @@ $('#aiBtn').addEventListener('click', function () {
 function pintarProgreso() {
   var t = totales(), pct = t.i ? Math.round(100 * t.a / t.i) : 0;
   var lh = 0, lb = 0, lt = 0;
-  LIBRO.forEach(function (s) { var st = libroStats(s); lh += st.hechos; lb += st.bien; lt += st.total; });
+  LIBRO.forEach(function (s) { if (s.sinClave) return; var st = libroStats(s); lh += st.hechos; lb += st.bien; lt += st.total; });
   var sabidas = FLASH.filter(function (c) { return prog.flash[c.id] === 'se'; }).length;
   $('#stats').innerHTML = [
     ['Aciertos en práctica', t.a + '/' + t.i, pct + '% de acierto'],
     ['Racha actual', prog.racha || 0, 'mejor racha: ' + (prog.mejorRacha || 0)],
-    ['Ejercicios del libro', lh + '/' + lt, lb + ' correctos al primer intento'],
+    ['Ejercicios del libro y la guía', lh + '/' + lt, lb + ' correctos al primer intento'],
     ['Tarjetas que ya sabes', sabidas + '/' + FLASH.length, 'en la pestaña Gramática']
   ].map(function (s) { return '<div class="panel stat"><span class="eyebrow">' + s[0] + '</span><span class="n">' + s[1] + '</span><span class="small muted">' + s[2] + '</span></div>'; }).join('');
   $('#progTable').innerHTML = '<tr><th>Práctica</th><th>Aciertos</th><th>%</th><th></th></tr>' + GENERADORES.map(function (g) {
@@ -1181,8 +1388,8 @@ function pintarProgreso() {
     return '<tr><td>' + esc(g.nombre) + '</td><td class="num">' + s.a + '/' + s.i + '</td><td class="num">' + (s.i ? p + '%' : '—') + '</td><td><div class="bar"><i style="width:' + p + '%"></i></div></td></tr>';
   }).join('');
   $('#bookTable').innerHTML = '<tr><th>Ejercicio del libro</th><th>Hechas</th><th>Correctas</th><th></th></tr>' + LIBRO.map(function (s) {
-    var st = libroStats(s), p = Math.round(100 * st.bien / st.total);
-    return '<tr><td>' + esc(s.titulo) + '</td><td class="num">' + st.hechos + '/' + st.total + '</td><td class="num">' + st.bien + '</td><td><div class="bar"><i style="width:' + p + '%"></i></div></td></tr>';
+    var st = libroStats(s), p = Math.round(100 * (s.sinClave ? st.hechos : st.bien) / st.total);
+    return '<tr><td>' + esc(s.titulo) + '</td><td class="num">' + st.hechos + '/' + st.total + '</td><td class="num">' + (s.sinClave ? '—' : st.bien) + '</td><td><div class="bar"><i style="width:' + p + '%"></i></div></td></tr>';
   }).join('');
   $('#resetZone').innerHTML = '<button class="btn ghost" type="button" id="resetBtn">Borrar mi progreso</button>';
   $('#resetBtn').addEventListener('click', function () {
