@@ -109,6 +109,12 @@ section.view{display:flex; flex-direction:column; gap:20px}
   background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px)}
 .flash-face.back{transform:rotateY(180deg)}
 .flash-face .big{font-family:var(--font-en); font-size:clamp(1.1rem, 3.4vw, 1.55rem); line-height:1.35}
+.flash-mc{width:min(620px, 100%); display:flex; flex-direction:column; gap:12px; align-items:stretch; text-align:center; border:1px solid var(--line); border-radius:14px; padding:20px; background:var(--paper);
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px)}
+.flash-mc .big{font-family:var(--font-en); font-size:clamp(1.1rem, 3.4vw, 1.45rem); line-height:1.35}
+.flash-mc .opts{grid-template-columns:repeat(2, minmax(0, 1fr))}
+.flash-mc .opt{text-align:center; font-family:var(--font-en)}
+.flash-mc .feedback{text-align:left}
 .flash-meta{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center}
 
 /* Libro */
@@ -266,10 +272,22 @@ input.field.en-in{font-family:var(--font-en); font-size:1rem}
     <div class="panel flash-zone">
       <div class="row" style="justify-content:space-between; width:100%">
         <h3>Tarjetas de repaso</h3>
-        <div class="seg" id="flashDeck">
-          <button type="button" data-deck="todas" aria-pressed="true">Todas</button>
-          <button type="button" data-deck="repasar" aria-pressed="false">Por repasar</button>
+        <div class="row">
+          <div class="seg" id="flashMode" role="group" aria-label="Modo de las tarjetas">
+            <button type="button" data-mode="voltear" aria-pressed="true">Voltear</button>
+            <button type="button" data-mode="mc" aria-pressed="false">Opción múltiple</button>
+          </div>
+          <div class="seg" id="flashDeck">
+            <button type="button" data-deck="todas" aria-pressed="true">Todas</button>
+            <button type="button" data-deck="repasar" aria-pressed="false">Por repasar</button>
+          </div>
         </div>
+      </div>
+      <div class="flash-mc" id="flashMC" hidden>
+        <span class="eyebrow">Pregunta</span>
+        <div class="big" id="mcQ"></div>
+        <div class="opts" id="mcOpts"></div>
+        <div id="mcFb"></div>
       </div>
       <button class="flashcard" id="flashcard" type="button" aria-label="Voltear tarjeta">
         <div class="flash-inner">
@@ -985,7 +1003,7 @@ function temaNombre(id) { for (var i = 0; i < TEMAS.length; i++) if (TEMAS[i].id
 
 /* ================= Progreso y almacenamiento ================= */
 var LS_KEY = 'cuaderno-ingles-progreso-v1';
-function progVacio() { return {v:1, practica:{}, racha:0, mejorRacha:0, libro:{}, flash:{}, carta:{}, orden:0, t:0}; }
+function progVacio() { return {v:1, practica:{}, hechos:{}, racha:0, mejorRacha:0, libro:{}, flash:{}, carta:{}, orden:0, t:0}; }
 var prog = progVacio();
 try { var raw = localStorage.getItem(LS_KEY); if (raw) prog = Object.assign(progVacio(), JSON.parse(raw)); } catch (e) {}
 var dbRef = null, dbOk = false, saveTimer = null;
@@ -1089,20 +1107,78 @@ function pintarGram() {
   $('#gramContent').innerHTML = html;
 }
 
-var fl = {deck:'todas', i:0};
+var fl = {deck:'todas', i:0, modo:'voltear', resp:null, ops:null};
+/* Opción múltiple: la primera es la correcta; el orden se mezcla al mostrar */
+var FLASH_MC = {
+  f1:['some', 'any', 'much', 'many'], f2:['any', 'some', 'no', 'many'],
+  f3:['Los dos sirven', 'Solo some', 'Solo any', 'Ninguno de los dos'],
+  f4:['sustantivos contables', 'sustantivos no contables', 'contables y no contables', 'solo preguntas'],
+  f5:['sustantivos no contables', 'sustantivos contables', 'contables y no contables', 'solo negativas'],
+  f6:['contables y no contables', 'solo contables', 'solo no contables', 'solo preguntas'],
+  f7:['fewer', 'less', 'much', 'little'], f8:['less', 'fewer', 'many', 'few'],
+  f9:['Con un recipiente: a bottle of shampoo', 'Agregando -s: two shampoos', 'Con many: many shampoo', 'No se puede contar de ninguna forma'],
+  f10:['There\'s nothing in the fridge.', 'There\'s anything in the fridge.', 'There isn\'t nothing in the fridge.', 'There\'s something in the fridge.'],
+  f11:['Es doble negación', 'Le falta el sujeto', 'Debería ir en plural', 'Nothing debe ir al principio'],
+  f12:['something, nothing, everything', 'solo anything', 'anything y nothing', 'something y anything'],
+  f13:['Dear Sir or Madam:', 'Dear Friend,', 'Hi there!', 'Dear Manager Smith,'],
+  f14:['Dear Mr. Smith:', 'Dear Robert Smith:', 'Dear Mr. Robert:', 'Dear Smith,'],
+  f15:['Sincerely, · Cordially, · Best regards,', 'See you! · Bye, · Love,', 'Thanks! · Cheers, · Later,', 'Dear, · Hello, · Hi,'],
+  f16:['tu dirección, fecha, destinatario, saludo, cuerpo, despedida, firma y nombre', 'saludo, fecha, cuerpo y firma', 'tu dirección, saludo y cuerpo', 'fecha, cuerpo, despedida y tu e-mail'],
+  f17:['anyone', 'no one', 'someone', 'everyone'], f18:['no one', 'anyone', 'someone', 'everyone'],
+  f19:['had', 'have', 'would have', 'will have'], f20:['were', 'are', 'would be', 'had been'],
+  f21:['hers', 'her', 'she', 'herself'], f22:['much', 'many', 'a few', 'a lot'],
+  f23:['contables y no contables', 'solo contables', 'solo no contables', 'solo negativas'],
+  f24:['exercise', 'a manicure', 'sunscreen', 'makeup'],
+  f25:['superficial', 'generoso', 'egoísta', 'grosero'],
+  f26:['kindness, patience, honesty', 'makeup, hairstyles, clothes', 'sunscreen, mascara, lipstick', 'money, fame, beauty']
+};
 function mazo() { return fl.deck === 'todas' ? FLASH : FLASH.filter(function (c) { return prog.flash[c.id] !== 'se'; }); }
 function pintarFlash() {
   var m = mazo(), card = $('#flashcard');
   card.classList.remove('flipped');
-  if (!m.length) { $('#flashA').innerHTML = 'No tienes tarjetas por repasar'; $('#flashB').innerHTML = 'Cambia a «Todas» para verlas de nuevo'; $('#flashPos').textContent = '0/0'; return; }
+  if (!m.length) { $('#flashA').innerHTML = 'No tienes tarjetas por repasar'; $('#flashB').innerHTML = 'Cambia a «Todas» para verlas de nuevo'; $('#flashPos').textContent = '0/0'; pintarMC(null); return; }
   if (fl.i >= m.length) fl.i = 0;
   if (fl.i < 0) fl.i = m.length - 1;
   var c = m[fl.i];
+  pintarMC(c);
   $('#flashA').innerHTML = c.a;
   setTimeout(function () { $('#flashB').innerHTML = c.b; }, 120);
   var est = prog.flash[c.id] === 'se' ? ' · la sabes' : prog.flash[c.id] === 'repasar' ? ' · por repasar' : '';
   $('#flashPos').textContent = (fl.i + 1) + '/' + m.length + est;
 }
+function pintarMC(c) {
+  var mc = fl.modo === 'mc';
+  $('#flashMC').hidden = !mc; $('#flashcard').hidden = mc;
+  if (!mc) return;
+  if (!c) { $('#mcQ').innerHTML = $('#flashA').innerHTML; $('#mcOpts').innerHTML = ''; $('#mcFb').innerHTML = ''; return; }
+  var ops = FLASH_MC[c.id] || [];
+  if (fl.ops === null || fl.opsId !== c.id) { fl.ops = shuffle(ops); fl.opsId = c.id; fl.resp = null; }
+  $('#mcQ').innerHTML = c.a;
+  $('#mcOpts').innerHTML = fl.ops.map(function (o) {
+    var cls = fl.resp === null ? '' : (o === ops[0] ? ' right' : (o === fl.resp ? ' wrong' : ''));
+    return '<button class="opt' + cls + '" type="button" data-o="' + esc(o) + '"' + (fl.resp !== null ? ' disabled' : '') + '>' + esc(o) + '</button>';
+  }).join('');
+  $('#mcFb').innerHTML = fl.resp === null ? '' : '<div class="feedback ' + (fl.resp === ops[0] ? 'ok' : 'bad') + '">' +
+    (fl.resp === ops[0] ? 'Correcto' : 'La respuesta es ' + esc(ops[0])) + '<span>' + c.b + '</span></div>';
+}
+$('#mcOpts').addEventListener('click', function (ev) {
+  var b = ev.target.closest('[data-o]'); if (!b || fl.resp !== null) return;
+  var m = mazo(), c = m[fl.i]; if (!c) return;
+  fl.resp = b.dataset.o;
+  if (fl.resp !== FLASH_MC[c.id][0]) { prog.flash[c.id] = 'repasar'; guardar(); }
+  pintarMC(c);
+  var est = prog.flash[c.id] === 'se' ? ' · la sabes' : prog.flash[c.id] === 'repasar' ? ' · por repasar' : '';
+  $('#flashPos').textContent = (fl.i + 1) + '/' + m.length + est;
+});
+$$('#flashMode button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    fl.modo = b.dataset.mode; fl.ops = null;
+    $$('#flashMode button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    try { localStorage.setItem('cuaderno-ingles-modo-tarjetas', fl.modo); } catch (e) {}
+    pintarFlash();
+  });
+});
+try { if (localStorage.getItem('cuaderno-ingles-modo-tarjetas') === 'mc') { fl.modo = 'mc'; $$('#flashMode button').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.mode === 'mc')); }); } } catch (e) {}
 $('#flashcard').addEventListener('click', function () { this.classList.toggle('flipped'); });
 $('#flashPrev').addEventListener('click', function () { fl.i--; pintarFlash(); });
 $('#flashNext').addEventListener('click', function () { fl.i++; pintarFlash(); });
@@ -1196,7 +1272,16 @@ function comprobarLibro(id) {
 }
 
 /* ================= Práctica ================= */
-var pr = {gid:GENERADORES[0].id, problem:null, done:false, counted:false};
+var pr = {gid:GENERADORES[0].id, problem:null, done:false, counted:false, key:'', fin:false};
+/* Cada pregunta tiene una clave corta; las que respondes bien al primer intento no vuelven a salir */
+function claveProblema(p) {
+  var t = (p.enunciado || '') + '|' + (p.frase || '') + '|' + (p.correcta || ''), h = 5381;
+  for (var i = 0; i < t.length; i++) h = ((h * 33) ^ t.charCodeAt(i)) >>> 0;
+  return h.toString(36);
+}
+function hechosDe(gid) { prog.hechos = prog.hechos || {}; return prog.hechos[gid] || (prog.hechos[gid] = {}); }
+function nHechos(gid) { return Object.keys((prog.hechos || {})[gid] || {}).length; }
+function marcarHecho() { hechosDe(pr.gid)[pr.key] = 1; guardar(); }
 function pintarTipos() {
   var html = '';
   TEMAS.forEach(function (t) {
@@ -1205,7 +1290,8 @@ function pintarTipos() {
     html += '<div><div class="tema-name">' + esc(t.nombre) + '</div>' + gs.map(function (g) {
       var s = prog.practica[g.id] || {i:0, a:0}, pct = s.i ? Math.round(100 * s.a / s.i) : 0;
       return '<button class="type-btn" type="button" data-g="' + g.id + '" aria-pressed="' + (pr.gid === g.id) + '"><span class="tn">' + esc(g.nombre) + '</span>' +
-        '<span class="ts"><span class="bar"><i style="width:' + pct + '%"></i></span><span class="mono">' + s.a + '/' + s.i + '</span></span></button>';
+        '<span class="ts"><span class="bar"><i style="width:' + pct + '%"></i></span><span class="mono" title="aciertos / intentos">' + s.a + '/' + s.i + '</span></span>' +
+        (nHechos(g.id) ? '<span class="ts">' + nHechos(g.id) + ' dominada' + (nHechos(g.id) > 1 ? 's' : '') + ', no se repiten</span>' : '') + '</button>';
     }).join('') + '</div>';
   });
   $('#typeList').innerHTML = html;
@@ -1213,10 +1299,27 @@ function pintarTipos() {
 $('#typeList').addEventListener('click', function (ev) { var b = ev.target.closest('[data-g]'); if (b) nuevoProblema(b.dataset.g); });
 function genPorId(id) { return GENERADORES.filter(function (g) { return g.id === id; })[0]; }
 function nuevoProblema(gid) {
-  pr.gid = gid || pr.gid; pr.problem = genPorId(pr.gid).gen(); pr.done = false; pr.counted = false;
+  pr.gid = gid || pr.gid;
+  var g = genPorId(pr.gid), hechos = hechosDe(pr.gid), p = null, k = '', repetida = null;
+  for (var n = 0; n < 2500; n++) {
+    var cand = g.gen(), ck = claveProblema(cand);
+    if (hechos[ck]) continue;
+    if (ck === pr.key) { repetida = repetida || {p:cand, k:ck}; continue; }
+    p = cand; k = ck; break;
+  }
+  if (!p && repetida) { p = repetida.p; k = repetida.k; }
+  pr.prevKey = pr.key; pr.problem = p; pr.key = k; pr.fin = !p; pr.done = false; pr.counted = false;
   pintarTipos(); pintarProblema();
 }
+function pintarFin() {
+  var g = genPorId(pr.gid);
+  $('#problem').innerHTML = '<span class="eyebrow">' + esc(g.nombre) + '</span>' +
+    '<div class="feedback ok">¡Completaste este tipo!<span>Respondiste bien al primer intento las ' + nHechos(pr.gid) + ' preguntas distintas que tiene. Elige otro tipo en la lista o vuelve a empezar este.</span></div>' +
+    '<div class="row"><button class="btn primary" type="button" id="prReset">Empezar este tipo de nuevo</button></div>';
+  $('#prReset').addEventListener('click', function () { prog.hechos[pr.gid] = {}; guardar(); pr.key = ''; nuevoProblema(); });
+}
 function pintarProblema() {
+  if (pr.fin) { pintarFin(); return; }
   var p = pr.problem, g = genPorId(pr.gid), html = '<span class="eyebrow">' + esc(g.nombre) + '</span><p class="statement">' + p.enunciado + '</p>';
   if (p.frase) html += '<div class="sent">' + p.frase + '</div>';
   if (p.escrito) {
@@ -1246,7 +1349,7 @@ function pintarProblema() {
 function elegir(b) {
   if (pr.done) return;
   var p = pr.problem, ok = b.dataset.o === p.correcta;
-  pr.done = true; registrar(pr.gid, ok); pintarTipos();
+  pr.done = true; if (ok) marcarHecho(); registrar(pr.gid, ok); pintarTipos();
   $$('#problem .opt').forEach(function (x) { x.disabled = true; if (x.dataset.o === p.correcta) x.classList.add('right'); });
   if (!ok) b.classList.add('wrong');
   var bl = $('#problem .blank');
@@ -1260,7 +1363,7 @@ function comprobarEscrito() {
   var inp = $('#prIn'), v = inp.value.trim(), p = pr.problem;
   if (!v) { inp.focus(); return; }
   var res = corregirTexto(v, p.correcta, p.alts);
-  if (!pr.counted) { registrar(pr.gid, res.ok); pr.counted = true; pintarTipos(); }
+  if (!pr.counted) { if (res.ok) marcarHecho(); registrar(pr.gid, res.ok); pr.counted = true; pintarTipos(); }
   if (res.ok) terminar(true, '');
   else $('#prFb').innerHTML = '<div class="feedback bad">Todavía no' + '<span>' + esc(res.msg || 'Revisa el verbo y el cuantificador.') + ' Corrígela y vuelve a comprobar, o toca «Ver respuesta».</span></div>';
 }
@@ -1393,7 +1496,7 @@ function pintarProgreso() {
   }).join('');
   $('#resetZone').innerHTML = '<button class="btn ghost" type="button" id="resetBtn">Borrar mi progreso</button>';
   $('#resetBtn').addEventListener('click', function () {
-    $('#resetZone').innerHTML = '<div class="confirm">Se borran aciertos, ejercicios del libro y tarjetas. Tu carta se conserva. <button class="btn" type="button" id="rsYes">Sí, borrar</button><button class="btn ghost" type="button" id="rsNo">Cancelar</button></div>';
+    $('#resetZone').innerHTML = '<div class="confirm">Se borran aciertos, preguntas dominadas, ejercicios y tarjetas. Tu carta se conserva. <button class="btn" type="button" id="rsYes">Sí, borrar</button><button class="btn ghost" type="button" id="rsNo">Cancelar</button></div>';
     $('#rsYes').addEventListener('click', function () { var carta = prog.carta; prog = progVacio(); prog.carta = carta; guardar(); pintarTodo(); pintarProgreso(); });
     $('#rsNo').addEventListener('click', pintarProgreso);
   });

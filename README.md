@@ -5,9 +5,9 @@ Guía de estudio interactiva de inglés, construida a partir del libro (Unidad 5
 **Abrir la app:** https://sergioan12-coder.github.io/cuaderno-ingles/
 
 ## Secciones
-- **Gramática:** reglas explicadas en español con los ejemplos del libro, y tarjetas de repaso.
+- **Gramática:** reglas explicadas en español con los ejemplos del libro, y tarjetas de repaso (voltear u opción múltiple).
 - **Ejercicios:** ejercicios A, B, C y D de la Lección 1 y pronombres de la Lección 2 del libro, y la guía de estudio (vocabulario, gramática, lectura «The Pressure to Look Perfect» y listening), con corrección y explicación.
-- **Práctica:** oraciones nuevas cada vez, con corrección automática.
+- **Práctica:** oraciones nuevas cada vez, con corrección automática. Las preguntas que respondes bien al primer intento no se repiten.
 - **Carta formal:** el modelo del libro con sus partes, un ejercicio para ordenarlas y un taller para escribir tu propia carta con revisión automática.
 - **Mi progreso:** aciertos, racha, ejercicios del libro y tarjetas (se guardan en el navegador de cada estudiante).
 
